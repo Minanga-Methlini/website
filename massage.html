@@ -8,51 +8,65 @@
 </head>
 <body class="bg-gray-50 text-gray-800">
 
-  <!-- Navbar -->
-  <header class="bg-white shadow">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-blue-600">Beyond Trust</h1>
-      <nav class="space-x-4">
-        <a href="index.html" class="hover:underline">Home</a>
-        <a href="services.html" class="hover:underline">Services</a>
-        <a href="booking.html" class="hover:underline">Book Now</a>
-        <a href="login.html" class="hover:underline">Login</a>
-      </nav>
+   <!-- Navbar -->
+ <header class="fixed top-0 left-0 w-full bg-black bg-opacity-60 shadow backdrop-blur-md z-50">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+    
+    <!-- Logo -->
+    <div class="flex items-center space-x-3">
+      <img src="images/logo.png" alt="logo" class="h-12 w-12 rounded-full">
+      <h1 class="text-2xl font-bold text-teal-300">Beyond Trust - Health Care Services</h1>
     </div>
-  </header>
 
-  <!-- Service Detail -->
-  <section class="max-w-6xl mx-auto py-12 px-4">
-    <div class="grid md:grid-cols-2 gap-10 items-start">
-      
-      <!-- Image -->
-      <img src="images/massage.jpg" alt="Service Image" class="w-full h-80 object-cover rounded shadow-md" />
+    <!-- Navigation -->
+    <nav class="space-x-6 text-white">
+      <a href="index.html" class="inline-block hover:text-teal-300 hover:scale-105 transform transition duration-30 shadow-md">Home</a>
+        <a href="services.html" class="text-teal-300 font-semibold">Services</a>
+        <a href="booking.html" class="inline-block hover:text-teal-300 hover:scale-105 transform transition duration-30 shadow-md">Book Now</a>
+        <a href="login.html"
+         class="inline-block bg-blue-600 text-white px-4 py-1 rounded-lg
+                hover:bg-teal-300 hover:text-black hover:scale-105 transform transition duration-300 shadow-md">
+        Login
+      </a>
+    </nav>
+  </div>
+</header>
 
-      <!-- Content -->
-      <div>
-        <h2 class="text-3xl font-bold mb-4 text-blue-700">Massage Therapy</h2>
-        <p class="text-gray-700 mb-4">
-          Our professional massage therapists bring relaxation to your home. Choose from Swedish, deep tissue, or aromatherapy massages based on your preferences.
-        </p>
+ <!-- Service Detail -->
+  <section class="mx-auto pt-40 pb-20 px-4 bg-indigo-100">
+  <div class="grid md:grid-cols-2 gap-10 items-center animate-fadeInUp">
+    
+    <!-- Image -->
+    <img src="images/massage.jpg" alt="Service Image"
+         class="w-full h-80 object-cover rounded shadow-md transform hover:scale-105 transition duration-300" />
 
-        <ul class="list-disc list-inside mb-4 text-gray-600">
-          <li>Available 7 days a week</li>
-          <li>Certified professionals only</li>
-          <li>Customizable duration (30–90 minutes)</li>
-        </ul>
+    <!-- Content -->
+    <div>
+      <h2 class="text-3xl font-bold mb-4 text-cyan-900">Massage Therapy</h2>
+      <p class="text-black mb-4">
+        Our professional massage therapists bring relaxation to your home. Choose from Swedish, deep tissue, or aromatherapy massages based on your preferences.
+      </p>
 
-        <p class="font-semibold mb-4">Starting at: <span class="text-blue-600">LKR 3,500</span></p>
+      <ul class="list-disc list-inside mb-4 text-black">
+        <li>Available 7 days a week</li>
+        <li>Certified professionals only</li>
+        <li>Customizable duration (30–90 minutes)</li>
+      </ul>
 
-        <a href="booking.html" class="inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
-          Book This Service
-        </a>
-      </div>
+      <p class="font-semibold mb-4">Starting at: <span class="text-cyan-900">LKR 3,500</span></p>
 
+      <a href="booking.html"
+         class="inline-block bg-blue-600 text-white px-6 py-2 rounded
+                hover:bg-blue-700 hover:scale-105 transform transition duration-300 shadow-md">
+        Book This Service
+      </a>
     </div>
-  </section>
+  </div>
+</section>
+
 
   <!-- Footer -->
-  <footer class="bg-gray-800 text-white py-4 text-center">
+  <footer class="bg-slate-950 text-white py-4 text-center">
     © 2025 Beyond Trust Health Care Services
   </footer>
 
