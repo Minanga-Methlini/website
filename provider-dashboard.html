@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Provider Dashboard | Beyond Trust</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+  <!-- Navbar -->
+  <header class="bg-white shadow">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-blue-700">Provider Panel</h1>
+      <nav class="space-x-4">
+        <a href="logout.php" class="text-red-500 hover:underline">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="max-w-6xl mx-auto py-10 px-4">
+    <h2 class="text-3xl font-bold mb-6 text-blue-700 text-center">Welcome, [Provider Name]</h2>
+
+    <!-- Availability -->
+    <div class="bg-white rounded shadow p-6 mb-8">
+      <h3 class="text-lg font-semibold text-blue-700 mb-3">Set Your Availability</h3>
+      <form action="provider_availability.php" method="POST" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input type="date" name="available_date" required class="px-4 py-2 border rounded w-full" />
+          <input type="time" name="available_time" required class="px-4 py-2 border rounded w-full" />
+        </div>
+        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Submit</button>
+      </form>
+    </div>
+
+    <!-- Booking Requests -->
+    <div class="bg-white rounded shadow p-6">
+      <h3 class="text-lg font-semibold mb-4 text-blue-700">Upcoming Appointments</h3>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead><tr class="text-gray-600 border-b"><th class="py-2 px-3">Service</th><th class="py-2 px-3">Client</th><th class="py-2 px-3">Date</th><th class="py-2 px-3">Time</th></tr></thead>
+          <tbody>
+            <tr class="border-b hover:bg-gray-50"><td class="py-2 px-3">Massage</td><td class="py-2 px-3">Minanga</td><td class="py-2 px-3">2025-07-15</td><td class="py-2 px-3">10:00 AM</td></tr>
+            <tr class="border-b hover:bg-gray-50"><td class="py-2 px-3">Grooming</td><td class="py-2 px-3">Dilani</td><td class="py-2 px-3">2025-07-17</td><td class="py-2 px-3">4:00 PM</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-4 text-center mt-10">
+    Provider Dashboard © Beyond Trust 2025
+  </footer>
+
+</body>
+</html>

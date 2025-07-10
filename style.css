@@ -1,0 +1,18 @@
+  .nav-link {
+    transition: color 0.3s ease;
+  }
+
+  .nav-link:hover {
+    color: #facc15; /* Tailwind yellow-400 */
+  }
+
+  .nav-link.active {
+    color: #facc15;
+    text-decoration: underline;
+  }
+
+  section.active-section {
+    background-color: #1e293b; /* Tailwind slate-800 */
+    transition: background-color 0.5s ease-in-out;
+  }
+
