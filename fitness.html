@@ -4,74 +4,138 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Service Details | Beyond Trust</title>
-   <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="icon" type="image/png" href="images/favicon.png">
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: -1;
+    }
+
+    body {
+      background-color: black; /* fallback background */
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="relative text-gray-800">
 
-   <!-- Navbar -->
- <header class="fixed top-0 left-0 w-full bg-black bg-opacity-60 shadow backdrop-blur-md z-50">
-  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-    
-    <!-- Logo -->
-    <div class="flex items-center space-x-3">
-      <img src="images/logo.png" alt="logo" class="h-12 w-12 rounded-full">
-      <h1 class="text-2xl font-bold text-teal-300">Beyond Trust - Health Care Services</h1>
-    </div>
+  <!-- Particle Background -->
+  <div id="particles-js"></div>
 
-    <!-- Navigation -->
-    <nav class="space-x-6 text-white">
-      <a href="index.html" class="inline-block hover:text-teal-300 hover:scale-105 transform transition duration-30 shadow-md">Home</a>
+  <!-- Navbar -->
+  <header class="fixed top-0 left-0 w-full bg-black bg-opacity-60 shadow z-50 backdrop-blur">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <!-- Logo -->
+      <div class="flex items-center space-x-3">
+        <img src="images/logo.png" alt="logo" class="h-12 w-12 rounded-full">
+        <h1 class="text-2xl font-bold text-teal-300">Beyond Trust - Health Care Services</h1>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="space-x-6 text-white">
+        <a href="index.html" class="hover:text-teal-300">Home</a>
         <a href="services.html" class="text-teal-300 font-semibold">Services</a>
-        <a href="booking.html" class="inline-block hover:text-teal-300 hover:scale-105 transform transition duration-30 shadow-md">Book Now</a>
-        <a href="contacts.html" class="inline-block hover:text-teal-300 hover:scale-105 transform transition duration-30 shadow-md">Contact Us</a>
+        <a href="booking.html" class="hover:text-teal-300">Book Now</a>
+        <a href="contacts.html" class="hover:text-teal-300">Contact Us</a>
         <a href="login.html"
-         class="inline-block bg-blue-600 text-white px-4 py-1 rounded-lg
-                hover:bg-teal-300 hover:text-black hover:scale-105 transform transition duration-300 shadow-md">
-        Login
-      </a>
-    </nav>
-  </div>
-</header>
-<!-- Service Detail: Personal Fitness -->
-<section class="mx-auto pt-40 pb-20 px-4 bg-indigo-100">
-  <div class="grid md:grid-cols-2 gap-10 items-center animate-fadeInUp">
-    
-    <!-- Image -->
-    <img src="images/fitness.jpg" alt="Personal Fitness"
-         class="w-full h-80 object-cover rounded shadow-md transform hover:scale-105 transition duration-300" />
-
-    <!-- Content -->
-    <div>
-      <h2 class="text-3xl font-bold mb-4 text-cyan-900">Personal Fitness</h2>
-      <p class="text-black mb-4">
-        Achieve your wellness goals from home with our certified personal trainers. Sessions are tailored to your fitness level and objectives.
-      </p>
-
-      <ul class="list-disc list-inside mb-4 text-black">
-        <li>Flexible timing</li>
-        <li>Home or virtual sessions</li>
-        <li>Custom workout plans</li>
-      </ul>
-
-      <p class="font-semibold mb-4">Starting at: <span class="text-cyan-900">LKR 4,000</span></p>
-
-      <a href="booking.html"
-         class="inline-block bg-blue-600 text-white px-6 py-2 rounded
-                hover:bg-blue-700 hover:scale-105 transform transition duration-300 shadow-md">
-        Book This Service
-      </a>
+         class="inline-block bg-teal-300 text-black px-4 py-1 rounded-lg hover:bg-teal-200 hover:scale-105 transition duration-300 shadow-md">
+          Login
+        </a>
+      </nav>
     </div>
-  </div>
-</section>
+  </header>
 
+   <!-- Service Detail: Personal Fitness -->
+  <section class="mx-auto pt-40 pb-20 px-4 relative z-10">
+     <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 items-center bg-white bg-opacity-90 p-6 rounded-xl shadow-lg">
+      <!-- Image -->
+      <img src="images/fitness.jpg" alt="Personal Fitness"
+           class="w-full h-80 object-cover rounded shadow-md transform hover:scale-105 transition duration-300" />
 
+      <!-- Content -->
+      <div>
+        <h2 class="text-3xl font-bold mb-4 text-cyan-900">Personal Fitness</h2>
+        <p class="text-black mb-4">
+          Achieve your wellness goals from home with our certified personal trainers. Sessions are tailored to your fitness level and objectives.
+        </p>
 
+        <ul class="list-disc list-inside mb-4 text-black">
+          <li>Flexible timing</li>
+          <li>Home or virtual sessions</li>
+          <li>Custom workout plans</li>
+        </ul>
 
+        <p class="font-semibold mb-4">Starting at: <span class="text-cyan-900">LKR 4,000</span></p>
+
+        <a href="booking.html"
+           class="inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 hover:scale-105 transform transition duration-300 shadow-md">
+          Book This Service
+        </a>
+      </div>
+    </div>
+  </section>
+
+  
   <!-- Footer -->
-  <footer class="bg-slate-950 text-white py-4 text-center">
+  <footer class="bg-slate-950 text-white py-4 text-center relative z-10">
     © 2025 Beyond Trust Health Care Services
   </footer>
 
+  <!-- particles.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+  <!-- particles.js config -->
+  <script>
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 80,
+          "density": { "enable": true, "value_area": 800 }
+        },
+        "color": { "value": "#ffffff" },
+        "shape": {
+          "type": "circle",
+          "stroke": { "width": 0, "color": "#000000" }
+        },
+        "opacity": {
+          "value": 0.4,
+          "random": true
+        },
+        "size": {
+          "value": 3,
+          "random": true
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#ffffff",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 2,
+          "direction": "none",
+          "out_mode": "out"
+        }
+      },
+      "interactivity": {
+        "events": {
+          "onhover": { "enable": true, "mode": "repulse" },
+          "onclick": { "enable": true, "mode": "push" }
+        },
+        "modes": {
+          "repulse": { "distance": 100 },
+          "push": { "particles_nb": 4 }
+        }
+      },
+      "retina_detect": true
+    });
+  </script>
 </body>
 </html>

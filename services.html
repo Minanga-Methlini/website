@@ -6,77 +6,142 @@
   <title>Services | Beyond Trust</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+    }
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
 
-  <!-- Navbar -->
- <header class="fixed top-0 left-0 w-full bg-black bg-opacity-60 shadow backdrop-blur-md z-50">
-  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-    
-    <!-- Logo -->
-    <div class="flex items-center space-x-3">
-      <img src="images/logo.png" alt="logo" class="h-12 w-12 rounded-full">
-      <h1 class="text-2xl font-bold text-teal-300">Beyond Trust - Health Care Services</h1>
-    </div>
+ <!-- Navbar -->
+  <header class="fixed top-0 left-0 w-full bg-black bg-opacity-60 shadow backdrop-blur-md z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <!-- Logo -->
+      <div class="flex items-center space-x-3">
+        <img src="images/logo.png" alt="logo" class="h-12 w-12 rounded-full" />
+        <h1 class="text-2xl font-bold text-teal-300">Beyond Trust - Health Care Services</h1>
+      </div>
 
-    <!-- Navigation -->
-    <nav class="space-x-6 text-white">
-      <a href="index.html" class="inline-block hover:text-teal-300 hover:scale-105 transform transition duration-30 shadow-md">Home</a>
+      <!-- Navigation -->
+      <nav class="space-x-6 text-white">
+        <a href="index.html" class="hover:text-teal-300 hover:scale-105 transition duration-300">Home</a>
         <a href="services.html" class="text-teal-300 font-semibold">Services</a>
-        <a href="booking.html" class="inline-block hover:text-teal-300 hover:scale-105 transform transition duration-30 shadow-md">Book Now</a>
-         <a href="contacts.html" class=" inline-block hover:text-teal-300 hover:scale-105 transform transition duration-30 shadow-md">Contact Us</a>
+        <a href="booking.html" class="hover:text-teal-300 hover:scale-105 transition duration-300">Book Now</a>
+        <a href="contacts.html" class="hover:text-teal-300 hover:scale-105 transition duration-300">Contact Us</a>
         <a href="login.html"
-         class="inline-block bg-blue-600 text-white px-4 py-1 rounded-lg
-                hover:bg-teal-300 hover:text-black hover:scale-105 transform transition duration-300 shadow-md">
-        Login
-      </a>
-    </nav>
-  </div>
-</header>
+           class="inline-block bg-teal-300 text-black px-4 py-1 rounded-lg hover:bg-teal-200 hover:scale-105 transition duration-300 shadow-md">
+          Login
+        </a>
+      </nav>
+    </div>
+  </header>
+   <section class="max-w-2xl mx-auto py-2 bg-opacity-90 rounded-lg shadow-lg mt-20 relative z-10"></section>
+<body class="relative bg-gray-900 text-white">
 
-  <!-- Services Section -->
-    <section class="py-60 text-center" style="background-image: url('images/services.jpg'); background-size:cover; background-position: center; background-blend-mode: overlay; background-color: rgba(0, 0, 0, 0.5);">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
+  <!-- Particle Background -->
+  <div id="particles-js"></div>
 
+  <!-- Optional background image + overlay -->
+  <div class="absolute inset-0 bg-[url('images/bg.jpg')] bg-cover bg-center opacity-30 z-0"></div>
+  <div class="absolute inset-0 bg-black opacity-50 z-10"></div>
+
+  <!-- Services Content -->
+    <div class="relative z-20 max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
       <!-- Service Card -->
       <div class="bg-black bg-opacity-80 rounded-lg shadow hover:shadow-lg transition p-4">
         <img src="images/massage.jpg" alt="Massage Therapy" class="w-full h-60 object-cover rounded">
-        <h3 class="mt-4 text-xl text-teal-300">Massage Therapy</h3>
+        <h3 class="mt-4 text-xl text-teal-300 font-semibold">Massage Therapy</h3>
         <p class="mt-2 text-sm text-white">Relaxing full-body massages delivered at your doorstep.</p>
-        <a href="massage.html" class="text-blue-600 mt-3 inline-block hover:underline">Learn More →</a>
+        <a href="massage.html" class="text-blue-500 mt-3 inline-block hover:underline">Learn More →</a>
       </div>
 
       <div class="bg-black bg-opacity-80 rounded-lg shadow hover:shadow-lg transition p-4">
         <img src="images/fitness.jpg" alt="Fitness" class="w-full h-60 object-cover rounded">
         <h3 class="mt-4 text-xl text-teal-300 font-semibold">Personal Fitness</h3>
         <p class="mt-2 text-sm text-white">Certified trainers for your personal wellness goals.</p>
-        <a href="fitness.html" class="text-blue-600 mt-3 inline-block hover:underline">Learn More →</a>
+        <a href="fitness.html" class="text-blue-500 mt-3 inline-block hover:underline">Learn More →</a>
       </div>
 
       <div class="bg-black bg-opacity-80 rounded-lg shadow hover:shadow-lg transition p-4">
         <img src="images/grooming.jpg" alt="Grooming" class="w-full h-60 object-cover rounded">
         <h3 class="mt-4 text-xl text-teal-300 font-semibold">Grooming</h3>
         <p class="mt-2 text-sm text-white">Haircuts, facials, and grooming at your convenience.</p>
-        <a href="grooming.html" class="text-blue-600 mt-3 inline-block hover:underline">Learn More →</a>
+        <a href="grooming.html" class="text-blue-500 mt-3 inline-block hover:underline">Learn More →</a>
       </div>
 
       <div class="bg-black bg-opacity-80 rounded-lg shadow hover:shadow-lg transition p-4">
         <img src="images/assistance.jpg" alt="Eldercare" class="w-full h-60 object-cover rounded">
         <h3 class="mt-4 text-xl text-teal-300 font-semibold">Eldercare Assistance</h3>
         <p class="mt-2 text-sm text-white">Support and care for your loved ones at home.</p>
-        <a href="assitence.html" class="text-blue-600 mt-3 inline-block hover:underline">Learn More →</a>
+        <a href="assitence.html" class="text-blue-500 mt-3 inline-block hover:underline">Learn More →</a>
       </div>
-
     </div>
   </section>
 
+    
+
   <!-- Footer -->
-  <footer class="bg-slate-950 text-white py-4 text-center">
+  <footer class="relative z-20 bg-slate-950 text-white text-center py-4">
     © 2025 Beyond Trust Health Care Services
   </footer>
 
-</body>
+  <!-- Particle.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
+  <!-- Particle.js Config -->
+  <script>
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 60,
+          "density": { "enable": true, "value_area": 800 }
+        },
+        "color": { "value": "#ffffff" },
+        "shape": {
+          "type": "circle",
+          "stroke": { "width": 0, "color": "#000000" }
+        },
+        "opacity": {
+          "value": 0.5,
+          "random": false
+        },
+        "size": {
+          "value": 3,
+          "random": true
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#ffffff",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 3,
+          "direction": "none",
+          "out_mode": "out"
+        }
+      },
+      "interactivity": {
+        "events": {
+          "onhover": { "enable": true, "mode": "repulse" },
+          "onclick": { "enable": true, "mode": "push" }
+        },
+        "modes": {
+          "repulse": { "distance": 100 },
+          "push": { "particles_nb": 4 }
+        }
+      },
+      "retina_detect": true
+    });
+  </script>
 </body>
 </html>
