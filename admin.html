@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard | Beyond Trust</title>
+  <link rel="icon" href="images/favicon.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <style>
+    body, html {
+      height: 100%;
+    }
+  </style>
+</head>
+<body class="relative bg-gray-900 text-white">
+
+  <!-- Particles Background -->
+  <div id="particles-js" class="absolute inset-0 z-0"></div>
+
+  <!-- Navbar -->
+  <header class="fixed top-0 left-0 w-full bg-black bg-opacity-70 shadow z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <img src="images/logo.png" alt="logo" class="h-10 w-10 rounded-full">
+        <h1 class="text-2xl font-bold text-teal-300">Beyond Trust - Admin Dashboard</h1>
+      </div>
+      <nav class="space-x-6 text-white">
+        <a href="index.html" class="hover:text-teal-300">Home</a>
+        <a href="services.html" class="hover:text-teal-300">Services</a>
+        <a href="booking.html" class="hover:text-teal-300">Bookings</a>
+        <a href="contacts.html" class="hover:text-teal-300">Contact Us</a>
+        <a href="logout.html" class="bg-red-600 px-4 py-1 rounded hover:bg-red-500 transition">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Dashboard Content -->
+  <main class="relative z-10 pt-28 pb-16 px-6 max-w-6xl mx-auto">
+    <h2 class="text-4xl font-bold text-center mb-10 text-white">Welcome, Admin</h2>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+      <div class="bg-black bg-opacity-70 p-6 rounded-lg shadow-lg text-center">
+        <h3 class="text-xl font-semibold text-teal-300">Total Users</h3>
+        <p class="text-3xl mt-2 font-bold">__</p>
+      </div>
+      <div class="bg-black bg-opacity-70 p-6 rounded-lg shadow-lg text-center">
+        <h3 class="text-xl font-semibold text-purple-300">Total Providers</h3>
+        <p class="text-3xl mt-2 font-bold">__</p>
+      </div>
+      <div class="bg-black bg-opacity-70 p-6 rounded-lg shadow-lg text-center">
+        <h3 class="text-xl font-semibold text-blue-300">Bookings</h3>
+        <p class="text-3xl mt-2 font-bold">__</p>
+      </div>
+      <div class="bg-black bg-opacity-70 p-6 rounded-lg shadow-lg text-center">
+        <h3 class="text-xl font-semibold text-yellow-300">Feedbacks</h3>
+        <p class="text-3xl mt-2 font-bold">__</p>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="bg-black bg-opacity-60 p-6 rounded-lg shadow-lg">
+        <h4 class="text-xl font-semibold text-teal-300 mb-4">Recent Bookings</h4>
+        <ul class="space-y-2 text-white">
+          <li>✔ John Doe booked Home Visit on July 30</li>
+          <li>✔ Jane Smith booked Lab Test on July 29</li>
+          <li>✔ David Lee booked Doctor Visit on July 28</li>
+        </ul>
+      </div>
+
+      <div class="bg-black bg-opacity-60 p-6 rounded-lg shadow-lg">
+        <h4 class="text-xl font-semibold text-purple-300 mb-4">Pending Approvals</h4>
+        <ul class="space-y-2 text-white">
+          <li>⚠ Provider Registration: Care Health Services</li>
+          <li>⚠ Feedback Report: ID#1024</li>
+          <li>⚠ Service Listing: On-site Nursing</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="relative z-10 text-center py-6 bg-black bg-opacity-80 text-white">
+    © 2025 Beyond Trust Health Care Services. All rights reserved.
+  </footer>
+
+  <!-- Particles.js Config -->
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 80 },
+        color: { value: "#00f7ff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.25 },
+        size: { value: 2 },
+        move: {
+          enable: true,
+          speed: 1.2,
+          direction: "none",
+          out_mode: "out"
+        }
+      },
+      interactivity: {
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" }
+        },
+        modes: {
+          repulse: { distance: 100 },
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
+    });
+  </script>
+
+</body>
+</html>
