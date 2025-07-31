@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment Successful | Beyond Trust</title>
+  <link rel="icon" href="images/favicon.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <style>
+    html, body {
+      height: 100%;
+    }
+  </style>
+</head>
+<body class="relative bg-black text-white">
+
+  <!-- Background Animation -->
+  <div id="particles-js" class="absolute inset-0 z-0"></div>
+
+  <!-- Success Message Section -->
+  <main class="relative z-10 flex items-center justify-center h-screen">
+    <div class="bg-white bg-opacity-80 p-8 rounded-lg text-center shadow-xl">
+      <svg class="mx-auto mb-4 h-16 w-16 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+      <h1 class="text-3xl font-bold text-green-600 mb-2">Payment Successful!</h1>
+      <p class="text-black mb-6">Thank you for your payment. Your transaction has been completed successfully.</p>
+      <a href="index.html" class="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded transition duration-300">
+        Go Back to Home
+      </a>
+    </div>
+    
+
+  </main>
+
+   <!-- Footer -->
+  <footer class="relative z-10 text-center py-6 bg-black bg-opacity-80 text-white">
+    © 2025 Beyond Trust Health Care Services. All rights reserved.
+  </footer>
+
+  <!-- Particles.js Config -->
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 60 },
+        color: { value: "#00f7ff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.3 },
+        size: { value: 3 },
+        move: {
+          enable: true,
+          speed: 1,
+          direction: "none",
+          out_mode: "out"
+        }
+      },
+      interactivity: {
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" }
+        },
+        modes: {
+          repulse: { distance: 100 },
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
+    });
+  </script>
+
+</body>
+</html>
