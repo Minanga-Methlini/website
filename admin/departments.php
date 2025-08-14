@@ -43,10 +43,10 @@ if ($_POST) {
     }
 }
 
-// Get all departments with doctor count
-$query = "SELECT d.*, COUNT(dp.id) as doctor_count 
+// Get all departments with trainer count
+$query = "SELECT d.*, COUNT(dp.id) as trainer_count 
           FROM departments d 
-          LEFT JOIN doctor_profiles dp ON d.id = dp.department_id 
+          LEFT JOIN trainer_profiles dp ON d.id = dp.department_id 
           GROUP BY d.id 
           ORDER BY d.name";
 $stmt = $db->prepare($query);
@@ -172,7 +172,7 @@ $departments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </a>
                     <div class="text-white">
                         <h1 class="text-3xl font-bold tracking-tight">Department Management</h1>
-                        <p class="text-white/80 text-sm mt-1">Organize and manage hospital departments</p>
+                        <p class="text-white/80 text-sm mt-1">Organize and manage departments</p>
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
@@ -222,16 +222,16 @@ $departments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="bg-gradient-to-r from-green-500 to-green-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse-glow" style="animation-delay: 0.5s;">
                     <i class="fas fa-user-md text-white text-2xl"></i>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-800"><?php echo array_sum(array_column($departments, 'doctor_count')); ?></h3>
-                <p class="text-gray-600 font-medium">Total Doctors</p>
+                <h3 class="text-2xl font-bold text-gray-800"><?php echo array_sum(array_column($departments, 'trainer_count')); ?></h3>
+                <p class="text-gray-600 font-medium">Total Trainers</p>
             </div>
             
             <div class="stats-card rounded-2xl p-6 text-center">
                 <div class="bg-gradient-to-r from-purple-500 to-purple-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse-glow" style="animation-delay: 1s;">
                     <i class="fas fa-chart-line text-white text-2xl"></i>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-800"><?php echo count($departments) > 0 ? round(array_sum(array_column($departments, 'doctor_count')) / count($departments), 1) : 0; ?></h3>
-                <p class="text-gray-600 font-medium">Avg Doctors/Dept</p>
+                <h3 class="text-2xl font-bold text-gray-800"><?php echo count($departments) > 0 ? round(array_sum(array_column($departments, 'trainer_count')) / count($departments), 1) : 0; ?></h3>
+                <p class="text-gray-600 font-medium">Avg Trainers/Dept</p>
             </div>
         </div>
 
@@ -244,7 +244,7 @@ $departments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <div>
                         <h3 class="text-2xl font-bold text-white">Create New Department</h3>
-                        <p class="text-white/80">Add a new department to the hospital</p>
+                        <p class="text-white/80">Add a new department</p>
                     </div>
                 </div>
             </div>
@@ -324,7 +324,7 @@ $departments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 </div>
                                 <div class="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 text-sm font-bold px-4 py-2 rounded-full shadow-md">
                                     <i class="fas fa-user-md mr-1"></i>
-                                    <?php echo $dept['doctor_count']; ?> Doctors
+                                    <?php echo $dept['trainer_count']; ?> Trainers
                                 </div>
                             </div>
                             
@@ -416,7 +416,7 @@ $departments = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         function deleteDepartment(deptId, deptName) {
-            if (confirm(`🗑️ Are you sure you want to delete "${deptName}" department?\n\nThis action cannot be undone and may affect associated doctors.`)) {
+            if (confirm(`🗑️ Are you sure you want to delete "${deptName}" department?\n\nThis action cannot be undone and may affect associated trainers.`)) {
                 const form = document.createElement('form');
                 form.method = 'POST';
                 form.innerHTML = `
