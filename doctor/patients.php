@@ -87,22 +87,22 @@ $patients = [
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $status_filter = isset($_GET['status']) ? $_GET['status'] : '';
 
-// Filter patients based on search and status
-$filtered_patients = $patients;
+// Filter user based on search and status
+$filtered_user = $user;
 
 if (!empty($search)) {
-    $filtered_patients = array_filter($filtered_patients, function($patient) use ($search) {
+    $filtered_user = array_filter($filtered_user, function($user) use ($search) {
         $searchLower = strtolower($search);
-        return strpos(strtolower($patient['first_name']), $searchLower) !== false ||
-               strpos(strtolower($patient['last_name']), $searchLower) !== false ||
-               strpos(strtolower($patient['email']), $searchLower) !== false ||
-               strpos($patient['phone'], $search) !== false;
+        return strpos(strtolower($user['first_name']), $searchLower) !== false ||
+               strpos(strtolower($user['last_name']), $searchLower) !== false ||
+               strpos(strtolower($user['email']), $searchLower) !== false ||
+               strpos($user['phone'], $search) !== false;
     });
 }
 
 if (!empty($status_filter)) {
-    $filtered_patients = array_filter($filtered_patients, function($patient) use ($status_filter) {
-        return $patient['status'] === $status_filter;
+    $filtered_user = array_filter($filtered_user, function($user) use ($status_filter) {
+        return $user['status'] === $status_filter;
     });
 }
 ?>
@@ -112,7 +112,7 @@ if (!empty($status_filter)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Records - Medicare Management System</title>
+    <title>User Records - Beyond Trust</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -553,13 +553,13 @@ if (!empty($status_filter)) {
                 <i class="fas fa-user-md"></i>
             </div>
             <div class="logo-text">
-                <h1>Doctor</h1>
-                <p>Medicare Management System</p>
+                <h1>Trainer</h1>
+                <p>Beyond Trust</p>
             </div>
         </div>
         <div class="user-info">
             <div class="status-indicator"></div>
-            <span>Dr. John Smith</span>
+            <span>John Smith</span>
             <a href="#" class="logout-btn" onclick="alert('This is a demo page. No logout functionality.')">
                 <i class="fas fa-sign-out-alt"></i>
                 Logout
@@ -577,8 +577,8 @@ if (!empty($status_filter)) {
                     <i class="fas fa-users"></i>
                 </div>
                 <div>
-                    <h1>Patient Records</h1>
-                    <p>Manage and access patient medical history</p>
+                    <h1>User Records</h1>
+                    <p>Manage and access user history</p>
                 </div>
             </div>
         </div>
@@ -590,8 +590,8 @@ if (!empty($status_filter)) {
                     <i class="fas fa-users"></i>
                 </div>
                 <div class="stat-info">
-                    <h3><?php echo number_format($stats['total_patients']); ?></h3>
-                    <p>Total Patients</p>
+                    <h3><?php echo number_format($stats['total_user']); ?></h3>
+                    <p>Total Users</p>
                 </div>
             </div>
             <div class="stat-card">
@@ -599,8 +599,8 @@ if (!empty($status_filter)) {
                     <i class="fas fa-check-circle"></i>
                 </div>
                 <div class="stat-info">
-                    <h3><?php echo number_format($stats['active_patients']); ?></h3>
-                    <p>Active Patients</p>
+                    <h3><?php echo number_format($stats['active_user']); ?></h3>
+                    <p>Active Users</p>
                 </div>
             </div>
             <div class="stat-card">
@@ -608,8 +608,8 @@ if (!empty($status_filter)) {
                     <i class="fas fa-pause-circle"></i>
                 </div>
                 <div class="stat-info">
-                    <h3><?php echo number_format($stats['inactive_patients']); ?></h3>
-                    <p>Inactive Patients</p>
+                    <h3><?php echo number_format($stats['inactive_user']); ?></h3>
+                    <p>Inactive Users</p>
                 </div>
             </div>
             <div class="stat-card">
@@ -648,32 +648,32 @@ if (!empty($status_filter)) {
                     Clear
                 </a>
                 
-                <a href="#" class="btn btn-success" onclick="alert('This is a demo page. Add patient functionality not implemented.')">
+                <a href="#" class="btn btn-success" onclick="alert('This is a demo page. Add user functionality not implemented.')">
                     <i class="fas fa-plus"></i>
-                    Add Patient
+                    Add User
                 </a>
             </form>
         </div>
 
-        <!-- Patients Table -->
+        <!-- User Table -->
         <div class="patients-table">
             <div class="table-header">
-                <h2 class="table-title">Patient List</h2>
-                <span><?php echo count($filtered_patients); ?> patients found</span>
+                <h2 class="table-title">User List</h2>
+                <span><?php echo count($filtered_user); ?> Users found</span>
             </div>
             
-            <?php if (empty($filtered_patients)): ?>
+            <?php if (empty($filtered_user)): ?>
                 <div class="empty-state">
                     <i class="fas fa-users"></i>
-                    <h3>No Patients Found</h3>
-                    <p>No patients match your search criteria. Try adjusting your filters.</p>
+                    <h3>No Users Found</h3>
+                    <p>No Users match your search criteria. Try adjusting your filters.</p>
                 </div>
             <?php else: ?>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Patient</th>
+                                <th>User</th>
                                 <th>Contact Info</th>
                                 <th>Age</th>
                                 <th>Blood Group</th>
@@ -684,32 +684,32 @@ if (!empty($status_filter)) {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($filtered_patients as $patient): ?>
+                            <?php foreach ($filtered_user as $user): ?>
                             <tr>
                                 <td>
                                     <div class="patient-info">
                                         <div class="patient-avatar">
                                             <?php 
-                                            $initials = strtoupper(substr($patient['first_name'], 0, 1) . substr($patient['last_name'], 0, 1));
+                                            $initials = strtoupper(substr($user['first_name'], 0, 1) . substr($user['last_name'], 0, 1));
                                             echo $initials;
                                             ?>
                                         </div>
                                         <div class="patient-details">
-                                            <h4><?php echo htmlspecialchars($patient['first_name'] . ' ' . $patient['last_name']); ?></h4>
-                                            <p>ID: #<?php echo str_pad($patient['id'], 4, '0', STR_PAD_LEFT); ?></p>
+                                            <h4><?php echo htmlspecialchars($usert['first_name'] . ' ' . $user['last_name']); ?></h4>
+                                            <p>ID: #<?php echo str_pad($user['id'], 4, '0', STR_PAD_LEFT); ?></p>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
                                     <div>
-                                        <p><i class="fas fa-phone"></i> <?php echo htmlspecialchars($patient['phone']); ?></p>
-                                        <p><i class="fas fa-envelope"></i> <?php echo htmlspecialchars($patient['email']); ?></p>
+                                        <p><i class="fas fa-phone"></i> <?php echo htmlspecialchars($user['phone']); ?></p>
+                                        <p><i class="fas fa-envelope"></i> <?php echo htmlspecialchars($user['email']); ?></p>
                                     </div>
                                 </td>
                                 <td>
                                     <?php 
-                                    if ($patient['date_of_birth']) {
-                                        $birthDate = new DateTime($patient['date_of_birth']);
+                                    if ($user['date_of_birth']) {
+                                        $birthDate = new DateTime($user['date_of_birth']);
                                         $today = new DateTime();
                                         $age = $today->diff($birthDate)->y;
                                         echo $age . ' years';
@@ -718,22 +718,22 @@ if (!empty($status_filter)) {
                                     }
                                     ?>
                                 </td>
-                                <td><?php echo htmlspecialchars($patient['blood_group'] ?? 'N/A'); ?></td>
+                                <td><?php echo htmlspecialchars(user['blood_group'] ?? 'N/A'); ?></td>
                                 <td>
-                                    <span class="badge"><?php echo $patient['total_appointments']; ?> visits</span>
+                                    <span class="badge"><?php echo $user['total_appointments']; ?> visits</span>
                                 </td>
                                 <td>
                                     <?php 
-                                    if ($patient['last_visit']) {
-                                        echo date('M d, Y', strtotime($patient['last_visit']));
+                                    if ($user['last_visit']) {
+                                        echo date('M d, Y', strtotime($user['last_visit']));
                                     } else {
                                         echo 'No visits';
                                     }
                                     ?>
                                 </td>
                                 <td>
-                                    <span class="status-badge status-<?php echo $patient['status']; ?>">
-                                        <?php echo ucfirst($patient['status']); ?>
+                                    <span class="status-badge status-<?php echo $user['status']; ?>">
+                                        <?php echo ucfirst($user['status']); ?>
                                     </span>
                                 </td>
                                 <td>
