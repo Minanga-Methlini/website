@@ -3,7 +3,7 @@ require_once '../includes/auth.php';
 require_once '../includes/functions.php';
 require_once '../config/database.php';
 
-requireRole('patient');
+requireRole('user');
 
 $database = new Database();
 $db = $database->getConnection();
@@ -11,33 +11,33 @@ $db = $database->getConnection();
 $success = '';
 $error = '';
 
-// Get all doctors
+// Get all trainers
 $query = "SELECT u.id, u.first_name, u.last_name, dp.specialization, d.name as department_name
           FROM users u 
-          JOIN doctor_profiles dp ON u.id = dp.user_id
+          JOIN trainer_profiles dp ON u.id = dp.user_id
           JOIN departments d ON dp.department_id = d.id
-          WHERE u.role = 'doctor'";
+          WHERE u.role = 'trainer'";
 $stmt = $db->prepare($query);
 $stmt->execute();
-$doctors = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$trainers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $doctor_id = sanitizeInput($_POST['doctor_id']);
+    $trainer_id = sanitizeInput($_POST['trainer_id']);
     $appointment_date = sanitizeInput($_POST['appointment_date']);
     $appointment_time = sanitizeInput($_POST['appointment_time']);
     $notes = sanitizeInput($_POST['notes']);
     
-    if (empty($doctor_id) || empty($appointment_date) || empty($appointment_time)) {
+    if (empty($trainer_id) || empty($appointment_date) || empty($appointment_time)) {
         $error = 'Please fill in all required fields';
     } else {
         // Check if appointment slot is available
         $query = "SELECT * FROM appointments 
-                  WHERE doctor_id = :doctor_id 
+                  WHERE trainer_id = :trainer_id 
                   AND appointment_date = :appointment_date 
                   AND appointment_time = :appointment_time
                   AND status != 'cancelled'";
         $stmt = $db->prepare($query);
-        $stmt->bindParam(':doctor_id', $doctor_id);
+        $stmt->bindParam(':trainer_id', $trainer_id);
         $stmt->bindParam(':appointment_date', $appointment_date);
         $stmt->bindParam(':appointment_time', $appointment_time);
         $stmt->execute();
@@ -46,11 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $error = 'This time slot is already booked. Please choose another time.';
         } else {
             // Book the appointment
-            $query = "INSERT INTO appointments (patient_id, doctor_id, appointment_date, appointment_time, notes, status) 
-                      VALUES (:patient_id, :doctor_id, :appointment_date, :appointment_time, :notes, 'pending')";
+            $query = "INSERT INTO appointments (user_id, trainer_id, appointment_date, appointment_time, notes, status) 
+                      VALUES (:user_id, :trainer_id, :appointment_date, :appointment_time, :notes, 'pending')";
             $stmt = $db->prepare($query);
-            $stmt->bindParam(':patient_id', $_SESSION['user_id']);
-            $stmt->bindParam(':doctor_id', $doctor_id);
+            $stmt->bindParam(':user_id', $_SESSION['user_id']);
+            $stmt->bindParam(':trainer_id', $trainer_id);
             $stmt->bindParam(':appointment_date', $appointment_date);
             $stmt->bindParam(':appointment_time', $appointment_time);
             $stmt->bindParam(':notes', $notes);
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Appointment - Medicare System</title>
+    <title>Book Appointment -Beyond Trust</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <!-- Header Section -->
         <div class="text-center mb-8">
             <h2 class="text-3xl font-bold text-gray-800 mb-2">Schedule Your Appointment</h2>
-            <p class="text-gray-600">Choose your preferred doctor and time slot</p>
+            <p class="text-gray-600">Choose your preferred trainer and time slot</p>
         </div>
 
         <div class="bg-white rounded-2xl card-shadow overflow-hidden">
@@ -153,19 +153,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div class="p-8">
                 <form method="POST" class="space-y-6">
-                    <!-- Doctor Selection -->
+                    <!-- trainer Selection -->
                     <div class="bg-gray-50 p-6 rounded-xl">
                         <label class="flex items-center text-gray-700 text-sm font-semibold mb-3">
                             <i class="fas fa-user-md text-blue-500 mr-2"></i>
-                            Select Doctor
+                            Select Trainer
                         </label>
-                        <select name="doctor_id" required 
+                        <select name="trainer_id" required 
                                 class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 bg-white">
-                            <option value="">Choose your preferred doctor</option>
-                            <?php foreach ($doctors as $doctor): ?>
-                                <option value="<?php echo $doctor['id']; ?>">
-                                    Dr. <?php echo $doctor['first_name'] . ' ' . $doctor['last_name']; ?> - 
-                                    <?php echo $doctor['specialization']; ?> (<?php echo $doctor['department_name']; ?>)
+                            <option value="">Choose your preferred trainer</option>
+                            <?php foreach ($trainers as $trainer): ?>
+                                <option value="<?php echo $trainer['id']; ?>">
+                                    <?php echo $trainer['first_name'] . ' ' . $trainer['last_name']; ?> - 
+                                    <?php echo $trainer['specialization']; ?> (<?php echo $trainer['department_name']; ?>)
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -249,7 +249,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <li>• Please arrive 15 minutes before your scheduled appointment</li>
                         <li>• Bring your insurance card and a valid ID</li>
                         <li>• You will receive a confirmation email once your appointment is approved</li>
-                        <li>• For urgent medical issues, please visit the emergency department</li>
+                    
                     </ul>
                 </div>
             </div>
