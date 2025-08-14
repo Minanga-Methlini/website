@@ -11,9 +11,9 @@ class UserManager {
                          dp.specialization, d.name as department_name,
                          pp.date_of_birth, pp.gender
                   FROM users u
-                  LEFT JOIN doctor_profiles dp ON u.id = dp.user_id
+                  LEFT JOIN trainer_profiles dp ON u.id = dp.user_id
                   LEFT JOIN departments d ON dp.department_id = d.id
-                  LEFT JOIN patient_profiles pp ON u.id = pp.user_id";
+                  LEFT JOIN user_profiles pp ON u.id = pp.user_id";
         
         if ($role) {
             $query .= " WHERE u.role = :role";
@@ -50,8 +50,8 @@ class UserManager {
             $userId = $this->db->lastInsertId();
             
             // Create role-specific profile
-            if ($userData['role'] === 'doctor') {
-                $query = "INSERT INTO doctor_profiles (user_id, department_id, specialization, bio) 
+            if ($userData['role'] === 'trainer') {
+                $query = "INSERT INTO trainer_profiles (user_id, department_id, specialization, bio) 
                           VALUES (:user_id, :department_id, :specialization, :bio)";
                 $stmt = $this->db->prepare($query);
                 $stmt->execute([
@@ -60,8 +60,8 @@ class UserManager {
                     ':specialization' => $userData['specialization'] ?? '',
                     ':bio' => $userData['bio'] ?? ''
                 ]);
-            } elseif ($userData['role'] === 'patient') {
-                $query = "INSERT INTO patient_profiles (user_id, date_of_birth, gender, address) 
+            } elseif ($userData['role'] === 'user') {
+                $query = "INSERT INTO user_profiles (user_id, date_of_birth, gender, address) 
                           VALUES (:user_id, :date_of_birth, :gender, :address)";
                 $stmt = $this->db->prepare($query);
                 $stmt->execute([
@@ -108,9 +108,9 @@ class UserManager {
                          dp.specialization, dp.bio, d.name as department_name, dp.department_id,
                          pp.date_of_birth, pp.gender, pp.address
                   FROM users u
-                  LEFT JOIN doctor_profiles dp ON u.id = dp.user_id
+                  LEFT JOIN trainer_profiles dp ON u.id = dp.user_id
                   LEFT JOIN departments d ON dp.department_id = d.id
-                  LEFT JOIN patient_profiles pp ON u.id = pp.user_id
+                  LEFT JOIN user_profiles pp ON u.id = pp.user_id
                   WHERE u.id = :id";
         $stmt = $this->db->prepare($query);
         $stmt->execute([':id' => $userId]);
