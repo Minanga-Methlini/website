@@ -5,7 +5,7 @@ require_once '../includes/functions.php';
 session_start();
 
 // Check if user is logged in and is doctor
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'doctor') {
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'trainer') {
     header('Location: ../login.php');
     exit();
 }
@@ -16,16 +16,16 @@ $db = $database->getConnection();
 // Get doctor's appointments
 $appointments_query = "
     SELECT a.*, 
-           CONCAT(p.first_name, ' ', p.last_name) as patient_name,
-           p.phone as patient_phone,
-           p.email as patient_email
+           CONCAT(p.first_name, ' ', p.last_name) as user_name,
+           p.phone as user_phone,
+           p.email as user_email
     FROM appointments a 
-    JOIN users p ON a.patient_id = p.id 
-    WHERE a.doctor_id = :doctor_id 
+    JOIN users p ON a.user_id = p.id 
+    WHERE a.trainer_id = :trainer_id 
     ORDER BY a.appointment_date DESC, a.appointment_time DESC
 ";
 $appointments_stmt = $db->prepare($appointments_query);
-$appointments_stmt->bindParam(':doctor_id', $_SESSION['user_id']);
+$appointments_stmt->bindParam(':trainer_id', $_SESSION['user_id']);
 $appointments_stmt->execute();
 $appointments = $appointments_stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -34,11 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_status'])) {
     $appointment_id = $_POST['appointment_id'];
     $new_status = $_POST['status'];
     
-    $update_query = "UPDATE appointments SET status = :status WHERE id = :id AND doctor_id = :doctor_id";
+    $update_query = "UPDATE appointments SET status = :status WHERE id = :id AND trainer_id = :trainer_id";
     $update_stmt = $db->prepare($update_query);
     $update_stmt->bindParam(':status', $new_status);
     $update_stmt->bindParam(':id', $appointment_id);
-    $update_stmt->bindParam(':doctor_id', $_SESSION['user_id']);
+    $update_stmt->bindParam(':trainer_id', $_SESSION['user_id']);
     
     if ($update_stmt->execute()) {
         header('Location: appointments.php?updated=1');
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_status'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Appointments - Doctor Dashboard</title>
+    <title>All Appointments - Trainer Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -141,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_status'])) {
                         <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
                             All Appointments
                         </h1>
-                        <p class="text-gray-600">Manage your patient appointments</p>
+                        <p class="text-gray-600">Manage your user appointments</p>
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
@@ -194,17 +194,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_status'])) {
                             <div class="flex-1">
                                 <div class="flex items-center mb-3">
                                     <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-green-500 rounded-full flex items-center justify-center text-white font-bold mr-4">
-                                        <?php echo strtoupper(substr($appointment['patient_name'], 0, 2)); ?>
+                                        <?php echo strtoupper(substr($appointment['user_name'], 0, 2)); ?>
                                     </div>
                                     <div>
-                                        <h3 class="text-xl font-semibold text-gray-800"><?php echo htmlspecialchars($appointment['patient_name']); ?></h3>
+                                        <h3 class="text-xl font-semibold text-gray-800"><?php echo htmlspecialchars($appointment['user_name']); ?></h3>
                                         <div class="flex items-center text-gray-600 text-sm">
                                             <i class="fas fa-envelope mr-2"></i>
-                                            <?php echo htmlspecialchars($appointment['patient_email']); ?>
-                                            <?php if ($appointment['patient_phone']): ?>
+                                            <?php echo htmlspecialchars($appointment['user_email']); ?>
+                                            <?php if ($appointment['user_phone']): ?>
                                                 <span class="mx-2">•</span>
                                                 <i class="fas fa-phone mr-2"></i>
-                                                <?php echo htmlspecialchars($appointment['patient_phone']); ?>
+                                                <?php echo htmlspecialchars($appointment['user_phone']); ?>
                                             <?php endif; ?>
                                         </div>
                                     </div>
@@ -221,14 +221,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_status'])) {
                                     </div>
                                     <div class="flex items-center text-gray-700">
                                         <i class="fas fa-stethoscope text-purple-500 mr-2"></i>
-                                        <span><?php echo htmlspecialchars($appointment['appointment_type'] ?? 'General Consultation'); ?></span>
+                                        <span><?php echo htmlspecialchars($appointment['appointment_type'] ?? 'General'); ?></span>
                                     </div>
                                 </div>
 
-                                <?php if ($appointment['symptoms']): ?>
+                                <?php if ($appointment['Notes']): ?>
                                     <div class="bg-gray-50 rounded-lg p-3 mb-4">
-                                        <h4 class="font-semibold text-gray-800 mb-1">Symptoms/Notes:</h4>
-                                        <p class="text-gray-700 text-sm"><?php echo htmlspecialchars($appointment['symptoms']); ?></p>
+                                        <h4 class="font-semibold text-gray-800 mb-1">Notes:</h4>
+                                        <p class="text-gray-700 text-sm"><?php echo htmlspecialchars($appointment['notes']); ?></p>
                                     </div>
                                 <?php endif; ?>
                             </div>
@@ -277,7 +277,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_status'])) {
                                         <i class="fas fa-notes-medical mr-1"></i>Add Notes
                                     </button>
                                     <button class="w-full bg-indigo-100 text-indigo-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-200 transition-all">
-                                        <i class="fas fa-prescription mr-1"></i>Prescribe
+                                        <i class="fas fa-prescription mr-1"></i>Descrice
                                     </button>
                                 </div>
                             </div>
