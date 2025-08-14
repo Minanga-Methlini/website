@@ -35,11 +35,11 @@ $appointment_stats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Recent appointments
 $query = "SELECT a.*, 
-                 p.first_name as patient_first, p.last_name as patient_last,
-                 d.first_name as doctor_first, d.last_name as doctor_last
+                 p.first_name as user_first, p.last_name as user_last,
+                 t.first_name as trainer_first, t.last_name as trainer_last
           FROM appointments a
-          JOIN users p ON a.patient_id = p.id
-          JOIN users d ON a.doctor_id = d.id
+          JOIN users p ON a.user_id = p.id
+          JOIN users t ON a.trainer_id = t.id
           ORDER BY a.created_at DESC
           LIMIT 10";
 $stmt = $db->prepare($query);
@@ -58,7 +58,7 @@ $recent_users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Medicare System</title>
+    <title>Admin Dashboard - Beyond Trust</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -116,7 +116,7 @@ $recent_users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <div>
                         <h1 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Admin</h1>
-                        <p class="text-sm text-gray-500">Medicare Management System</p>
+                        <p class="text-sm text-gray-500">Heyond Trust</p>
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
@@ -141,8 +141,8 @@ $recent_users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <i class="fas fa-users text-white text-xl"></i>
                     </div>
                     <div class="ml-4">
-                        <p class="text-gray-600 text-sm font-medium">Total Patients</p>
-                        <p class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent"><?php echo $stats['patient'] ?? 0; ?></p>
+                        <p class="text-gray-600 text-sm font-medium">Total Users</p>
+                        <p class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent"><?php echo $stats['user'] ?? 0; ?></p>
                     </div>
                 </div>
                 <div class="mt-4 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full"></div>
@@ -154,8 +154,8 @@ $recent_users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <i class="fas fa-user-md text-white text-xl"></i>
                     </div>
                     <div class="ml-4">
-                        <p class="text-gray-600 text-sm font-medium">Total Doctors</p>
-                        <p class="text-3xl font-bold bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent"><?php echo $stats['doctor'] ?? 0; ?></p>
+                        <p class="text-gray-600 text-sm font-medium">Total Trainers</p>
+                        <p class="text-3xl font-bold bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent"><?php echo $stats['trainer'] ?? 0; ?></p>
                     </div>
                 </div>
                 <div class="mt-4 h-1 bg-gradient-to-r from-green-400 to-green-600 rounded-full"></div>
@@ -208,11 +208,11 @@ $recent_users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <div class="flex items-center justify-between p-5 bg-gradient-to-r from-white to-blue-50 border border-blue-100 rounded-xl shadow-sm hover:shadow-md transition-all card-hover">
                                 <div>
                                     <p class="font-bold text-gray-800 text-lg">
-                                        <?php echo $appointment['patient_first'] . ' ' . $appointment['patient_last']; ?>
+                                        <?php echo $appointment['user_first'] . ' ' . $appointment['user_last']; ?>
                                     </p>
                                     <p class="text-sm text-gray-600 flex items-center">
                                         <i class="fas fa-user-md mr-2"></i>
-                                        with Dr. <?php echo $appointment['doctor_first'] . ' ' . $appointment['doctor_last']; ?>
+                                        with  <?php echo $appointment['trainer_first'] . ' ' . $appointment['trainer_last']; ?>
                                     </p>
                                     <p class="text-sm text-gray-500 flex items-center mt-1">
                                         <i class="fas fa-clock mr-2"></i>
