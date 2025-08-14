@@ -606,9 +606,9 @@
 
                 // Default user data - you can change this to test different users
                 return {
-                    fullName: "Thiseni",
-                    email: "thiseni@gmail.com",
-                    phone: "+94784334851",
+                    fullName: "Minanga",
+                    email: "minanga@gmail.com",
+                    phone: "+94765432123",
                     dateOfBirth: "2003-04-21",
                     gender: "female",
                     address: "Union Place, Colombo 2",
