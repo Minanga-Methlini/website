@@ -3,7 +3,7 @@ require_once '../includes/auth.php';
 require_once '../includes/functions.php';
 require_once '../config/database.php';
 
-requireRole('doctor');
+requireRole('trainer');
 
 $database = new Database();
 $db = $database->getConnection();
@@ -12,11 +12,11 @@ $db = $database->getConnection();
 $today = date('Y-m-d');
 $query = "SELECT a.*, u.first_name, u.last_name, u.phone 
           FROM appointments a 
-          JOIN users u ON a.patient_id = u.id 
-          WHERE a.doctor_id = :doctor_id AND a.appointment_date = :today 
+          JOIN users u ON a.user_id = u.id 
+          WHERE a.trainer_id = :trainer_id AND a.appointment_date = :today 
           ORDER BY a.appointment_time";
 $stmt = $db->prepare($query);
-$stmt->bindParam(':doctor_id', $_SESSION['user_id']);
+$stmt->bindParam(':trainer_id', $_SESSION['user_id']);
 $stmt->bindParam(':today', $today);
 $stmt->execute();
 $today_appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -27,9 +27,9 @@ $query = "SELECT
             COUNT(CASE WHEN status = 'completed' THEN 1 END) as completed,
             COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending,
             COUNT(CASE WHEN appointment_date >= CURDATE() THEN 1 END) as upcoming
-          FROM appointments WHERE doctor_id = :doctor_id";
+          FROM appointments WHERE trainer_id = :trainer_id";
 $stmt = $db->prepare($query);
-$stmt->bindParam(':doctor_id', $_SESSION['user_id']);
+$stmt->bindParam(':trainer_id', $_SESSION['user_id']);
 $stmt->execute();
 $stats = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
@@ -39,7 +39,7 @@ $stats = $stmt->fetch(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Dashboard - Medicare System</title>
+    <title>trainer Dashboard - Beyond Trust</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -89,14 +89,14 @@ $stats = $stmt->fetch(PDO::FETCH_ASSOC);
                         <i class="fas fa-user-md text-white text-2xl"></i>
                     </div>
                     <div>
-                        <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Doctor</h1>
-                        <p class="text-sm text-gray-500">Medicare Management System</p>
+                        <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Trainer</h1>
+                        <p class="text-sm text-gray-500">Beyond Trust</p>
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
                     <div class="flex items-center space-x-2 bg-blue-50 px-3 py-2 rounded-full">
                         <div class="w-2 h-2 bg-green-500 rounded-full pulse-animation"></div>
-                        <span class="text-gray-700 font-medium">Dr. <?php echo $_SESSION['first_name']; ?></span>
+                        <span class="text-gray-700 font-medium"> <?php echo $_SESSION['first_name']; ?></span>
                     </div>
                     <a href="../includes/logout.php" class="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-2 rounded-full hover:from-red-600 hover:to-red-700 transition-all transform hover:scale-105 shadow-lg">
                         <i class="fas fa-sign-out-alt mr-2"></i>Logout
@@ -241,8 +241,8 @@ $stats = $stmt->fetch(PDO::FETCH_ASSOC);
                             <div class="bg-gradient-to-br from-green-500 to-green-600 w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
                                 <i class="fas fa-users text-white text-xl"></i>
                             </div>
-                            <p class="font-bold text-gray-800">Patient Records</p>
-                            <p class="text-xs text-gray-600 mt-1">access medical history</p>
+                            <p class="font-bold text-gray-800">User Records</p>
+                            <p class="text-xs text-gray-600 mt-1">access history</p>
                         </a>
                         <a href="schedule.php" class="group bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-xl text-center hover:from-purple-100 hover:to-purple-200 transition-all transform hover:scale-105 shadow-md hover:shadow-lg border border-purple-200">
                             <div class="bg-gradient-to-br from-purple-500 to-purple-600 w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
