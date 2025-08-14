@@ -4,7 +4,7 @@ require_once '../includes/functions.php';
 require_once '../config/database.php';
 require_once '../classes/AppointmentManager.php';
 
-requireRole('doctor');
+requireRole('trainer');
 
 $database = new Database();
 $db = $database->getConnection();
@@ -24,7 +24,7 @@ $status_filter = $_GET['status'] ?? '';
 $date_filter = $_GET['date'] ?? '';
 
 // Get appointments
-$appointments = $appointmentManager->getDoctorAppointments($_SESSION['user_id'], $status_filter, $date_filter);
+$appointments = $appointmentManager->gettrainerAppointments($_SESSION['user_id'], $status_filter, $date_filter);
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +32,7 @@ $appointments = $appointmentManager->getDoctorAppointments($_SESSION['user_id'],
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Appointments - Doctor Dashboard</title>
+    <title>All Appointments - trainer Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -72,7 +72,7 @@ $appointments = $appointmentManager->getDoctorAppointments($_SESSION['user_id'],
                         <div class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
                             <i class="fas fa-user-md text-white text-xs"></i>
                         </div>
-                        <span class="text-gray-700 font-medium">Dr. <?php echo $_SESSION['first_name']; ?></span>
+                        <span class="text-gray-700 font-medium"> <?php echo $_SESSION['first_name']; ?></span>
                     </div>
                     <a href="../includes/logout.php" class="bg-gradient-to-r from-red-500 to-red-600 text-white px-5 py-2 rounded-full hover:from-red-600 hover:to-red-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
                         <i class="fas fa-sign-out-alt mr-2"></i>Logout
@@ -163,7 +163,7 @@ $appointments = $appointmentManager->getDoctorAppointments($_SESSION['user_id'],
                             </div>
                             <div>
                                 <h3 class="text-3xl font-bold">Your Appointments</h3>
-                                <p class="text-white/80 mt-1">Manage and track all patient appointments</p>
+                                <p class="text-white/80 mt-1">Manage and track all user appointments</p>
                             </div>
                         </div>
                         <div class="bg-white/20 backdrop-blur rounded-2xl px-6 py-3">
@@ -184,7 +184,7 @@ $appointments = $appointmentManager->getDoctorAppointments($_SESSION['user_id'],
                         <table class="w-full">
                             <thead>
                                 <tr class="border-b-2 border-gray-100">
-                                    <th class="text-left py-4 px-2 text-sm font-bold text-gray-600 uppercase tracking-wider">Patient Info</th>
+                                    <th class="text-left py-4 px-2 text-sm font-bold text-gray-600 uppercase tracking-wider">User Info</th>
                                     <th class="text-left py-4 px-2 text-sm font-bold text-gray-600 uppercase tracking-wider">Appointment</th>
                                     <th class="text-left py-4 px-2 text-sm font-bold text-gray-600 uppercase tracking-wider">Status</th>
                                     <th class="text-left py-4 px-2 text-sm font-bold text-gray-600 uppercase tracking-wider">Contact</th>
