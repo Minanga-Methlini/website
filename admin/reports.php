@@ -62,14 +62,14 @@ $status_trends = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Department statistics with more details
 $query = "SELECT d.name, 
-                 COUNT(DISTINCT dp.id) as doctor_count, 
+                 COUNT(DISTINCT dp.id) as trainer_count, 
                  COUNT(DISTINCT a.id) as appointment_count,
                  COUNT(DISTINCT CASE WHEN a.status = 'completed' THEN a.id END) as completed_appointments,
                  COUNT(DISTINCT CASE WHEN a.status = 'scheduled' THEN a.id END) as scheduled_appointments
           FROM departments d
-          LEFT JOIN doctor_profiles dp ON d.id = dp.department_id
-          LEFT JOIN users u ON dp.user_id = u.id AND u.role = 'doctor'
-          LEFT JOIN appointments a ON u.id = a.doctor_id
+          LEFT JOIN trainer_profiles dp ON d.id = dp.department_id
+          LEFT JOIN users u ON dp.user_id = u.id AND u.role = 'trainer'
+          LEFT JOIN appointments a ON u.id = a.trainer_id
           GROUP BY d.id, d.name
           ORDER BY appointment_count DESC";
 $stmt = $db->prepare($query);
@@ -78,8 +78,8 @@ $dept_stats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Summary statistics for cards
 $query = "SELECT 
-    (SELECT COUNT(*) FROM users WHERE role = 'patient') as total_patients,
-    (SELECT COUNT(*) FROM users WHERE role = 'doctor') as total_doctors,
+    (SELECT COUNT(*) FROM users WHERE role = 'user') as total_users,
+    (SELECT COUNT(*) FROM users WHERE role = 'trainer') as total_trainers,
     (SELECT COUNT(*) FROM appointments) as total_appointments,
     (SELECT COUNT(*) FROM appointments WHERE status = 'completed') as completed_appointments,
     (SELECT COUNT(*) FROM appointments WHERE DATE(appointment_date) = CURDATE()) as today_appointments,
@@ -189,8 +189,8 @@ $summary_stats = $stmt->fetch(PDO::FETCH_ASSOC);
             <div class="stat-card border-primary p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover animate-slide-up">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-gray-600 mb-1">Total Patients</p>
-                        <p class="text-2xl font-bold text-primary"><?php echo number_format($summary_stats['total_patients']); ?></p>
+                        <p class="text-sm font-medium text-gray-600 mb-1">Total Users</p>
+                        <p class="text-2xl font-bold text-primary"><?php echo number_format($summary_stats['total_users']); ?></p>
                     </div>
                     <div class="p-3 bg-primary/10 rounded-lg">
                         <i class="fas fa-users text-primary text-xl"></i>
@@ -202,8 +202,8 @@ $summary_stats = $stmt->fetch(PDO::FETCH_ASSOC);
             <div class="stat-card border-secondary p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover animate-slide-up" style="animation-delay: 0.1s">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-gray-600 mb-1">Total Doctors</p>
-                        <p class="text-2xl font-bold text-secondary"><?php echo number_format($summary_stats['total_doctors']); ?></p>
+                        <p class="text-sm font-medium text-gray-600 mb-1">Total Trainers</p>
+                        <p class="text-2xl font-bold text-secondary"><?php echo number_format($summary_stats['total_trainers']); ?></p>
                     </div>
                     <div class="p-3 bg-secondary/10 rounded-lg">
                         <i class="fas fa-user-md text-secondary text-xl"></i>
@@ -282,7 +282,7 @@ $summary_stats = $stmt->fetch(PDO::FETCH_ASSOC);
                     <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
                         <tr>
                             <th class="px-8 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Department</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Doctors</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Trainers</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Total Appointments</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Completed</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Scheduled</th>
@@ -311,7 +311,7 @@ $summary_stats = $stmt->fetch(PDO::FETCH_ASSOC);
                                 <td class="px-6 py-6 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <i class="fas fa-user-md text-secondary mr-2"></i>
-                                        <span class="text-sm font-semibold text-gray-900"><?php echo $dept['doctor_count']; ?></span>
+                                        <span class="text-sm font-semibold text-gray-900"><?php echo $dept['trainer_count']; ?></span>
                                     </div>
                                 </td>
                                 <td class="px-6 py-6 whitespace-nowrap">
