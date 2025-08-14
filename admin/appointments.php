@@ -249,10 +249,10 @@ $appointments = $appointmentManager->getAllAppointments();
                     <thead class="bg-gray-50/80">
                         <tr>
                             <th class="px-8 py-6 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">
-                                <i class="fas fa-user-injured mr-2 text-blue-500"></i>Patient
+                                <i class="fas fa-user-injured mr-2 text-blue-500"></i>User
                             </th>
                             <th class="px-8 py-6 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">
-                                <i class="fas fa-user-md mr-2 text-green-500"></i>Doctor
+                                <i class="fas fa-user-md mr-2 text-green-500"></i>Trainer
                             </th>
                             <th class="px-8 py-6 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">
                                 <i class="fas fa-calendar-day mr-2 text-purple-500"></i>Date & Time
@@ -275,11 +275,11 @@ $appointments = $appointmentManager->getAllAppointments();
                                         </div>
                                         <div class="ml-4">
                                             <div class="text-lg font-bold text-gray-900">
-                                                <?php echo htmlspecialchars($appointment['patient_first'] . ' ' . $appointment['patient_last']); ?>
+                                                <?php echo htmlspecialchars($appointment['user_first'] . ' ' . $appointment['user_last']); ?>
                                             </div>
                                             <div class="text-sm text-gray-500 flex items-center">
                                                 <i class="fas fa-envelope mr-1 text-blue-400"></i>
-                                                <?php echo htmlspecialchars($appointment['patient_email']); ?>
+                                                <?php echo htmlspecialchars($appointment['user_email']); ?>
                                             </div>
                                         </div>
                                     </div>
@@ -291,7 +291,7 @@ $appointments = $appointmentManager->getAllAppointments();
                                         </div>
                                         <div class="ml-4">
                                             <div class="text-lg font-bold text-gray-900">
-                                                Dr. <?php echo htmlspecialchars($appointment['doctor_first'] . ' ' . $appointment['doctor_last']); ?>
+                                                 <?php echo htmlspecialchars($appointment['trainer_first'] . ' ' . $appointment['trainer_last']); ?>
                                             </div>
                                             <div class="text-sm text-gray-500 flex items-center">
                                                 <i class="fas fa-stethoscope mr-1 text-green-400"></i>
