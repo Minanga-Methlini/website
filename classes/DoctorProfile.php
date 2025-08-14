@@ -1,15 +1,15 @@
 <?php
-class DoctorProfile {
+class TrainerProfile {
     private $db;
     
     public function __construct($database) {
         $this->db = $database;
     }
     
-    public function getDoctorProfile($userId) {
+    public function gettrainerProfile($userId) {
         $query = "SELECT u.*, dp.specialization, dp.bio, dp.availability, d.name as department_name
                   FROM users u 
-                  LEFT JOIN doctor_profiles dp ON u.id = dp.user_id
+                  LEFT JOIN trainer_profiles dp ON u.id = dp.user_id
                   LEFT JOIN departments d ON dp.department_id = d.id
                   WHERE u.id = :user_id";
         
@@ -30,8 +30,8 @@ class DoctorProfile {
         $stmt->bindParam(':user_id', $userId);
         $result1 = $stmt->execute();
         
-        // Update doctor profile
-        $query = "UPDATE doctor_profiles SET specialization = :specialization, bio = :bio 
+        // Update trainer profile
+        $query = "UPDATE trainer_profiles SET specialization = :specialization, bio = :bio 
                   WHERE user_id = :user_id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':specialization', $data['specialization']);
