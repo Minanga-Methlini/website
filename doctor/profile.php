@@ -4,11 +4,11 @@ require_once '../includes/functions.php';
 require_once '../config/database.php';
 require_once '../classes/DoctorProfile.php';
 
-requireRole('doctor');
+requireRole('trainer');
 
 $database = new Database();
 $db = $database->getConnection();
-$doctorProfile = new DoctorProfile($db);
+$trainerrProfile = new DtrainerProfile($db);
 
 $success_message = '';
 $error_message = '';
@@ -23,7 +23,7 @@ if ($_POST && isset($_POST['action']) && $_POST['action'] === 'update_profile') 
         'bio' => $_POST['bio']
     ];
     
-    if ($doctorProfile->updateProfile($_SESSION['user_id'], $data)) {
+    if ($trainerProfile->updateProfile($_SESSION['user_id'], $data)) {
         $success_message = 'Profile updated successfully!';
         $_SESSION['first_name'] = $data['first_name'];
         $_SESSION['last_name'] = $data['last_name'];
@@ -33,7 +33,7 @@ if ($_POST && isset($_POST['action']) && $_POST['action'] === 'update_profile') 
 }
 
 // Get current profile data
-$profile = $doctorProfile->getDoctorProfile($_SESSION['user_id']);
+$profile = $trainerProfile->gettrainerProfile($_SESSION['user_id']);
 
 // Get all departments for dropdown
 $query = "SELECT * FROM departments ORDER BY name";
@@ -47,7 +47,7 @@ $departments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Settings - Doctor Dashboard</title>
+    <title>Profile Settings - Trainer Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -83,7 +83,7 @@ $departments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <div class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
                             <i class="fas fa-user-md text-white text-xs"></i>
                         </div>
-                        <span class="text-gray-700 font-medium">Dr. <?php echo $_SESSION['first_name']; ?></span>
+                        <span class="text-gray-700 font-medium"> <?php echo $_SESSION['first_name']; ?></span>
                     </div>
                     <a href="../includes/logout.php" class="bg-gradient-to-r from-red-500 to-red-600 text-white px-5 py-2 rounded-full hover:from-red-600 hover:to-red-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
                         <i class="fas fa-sign-out-alt mr-2"></i>Logout
@@ -133,7 +133,7 @@ $departments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <i class="fas fa-user-md text-2xl"></i>
                         </div>
                         <div>
-                            <h3 class="text-3xl font-bold">Doctor Profile</h3>
+                            <h3 class="text-3xl font-bold">Trainer Profile</h3>
                             <p class="text-white/80 mt-1">Manage your professional information and preferences</p>
                         </div>
                     </div>
@@ -237,7 +237,7 @@ $departments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                           class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent input-focus transition-all resize-none"
                                           placeholder="Share your experience, expertise, and professional background..."><?php echo $profile['bio']; ?></textarea>
                                 <div class="flex justify-between items-center mt-2">
-                                    <p class="text-xs text-gray-500">Describe your medical expertise and experience</p>
+                                    <p class="text-xs text-gray-500">Describe your experience</p>
                                     <span class="text-xs text-gray-400" id="bioCount">0 characters</span>
                                 </div>
                             </div>
