@@ -248,11 +248,11 @@ $departments = getAllDepartments($db);
                         </div>
                     </div>
                     
-                    <!-- Doctor Specific Fields -->
+                    <!-- trainer Specific Fields -->
                     <div id="doctor-fields" class="hidden animate-slide-up">
                         <div class="bg-green-50 rounded-2xl p-6 border-2 border-green-200">
                             <h4 class="text-lg font-bold text-green-800 mb-4">
-                                <i class="fas fa-user-md mr-2"></i>Doctor Information
+                                <i class="fas fa-user-md mr-2"></i>trainer Information
                             </h4>
                             <div class="grid md:grid-cols-2 gap-6">
                                 <div class="space-y-2">
@@ -278,11 +278,11 @@ $departments = getAllDepartments($db);
                         </div>
                     </div>
                     
-                    <!-- Patient Specific Fields -->
+                    <!-- user Specific Fields -->
                     <div id="patient-fields" class="hidden animate-slide-up">
                         <div class="bg-blue-50 rounded-2xl p-6 border-2 border-blue-200">
                             <h4 class="text-lg font-bold text-blue-800 mb-4">
-                                <i class="fas fa-user mr-2"></i>Patient Information
+                                <i class="fas fa-user mr-2"></i>User Information
                             </h4>
                             <div class="grid md:grid-cols-3 gap-6">
                                 <div class="space-y-2">
@@ -405,7 +405,7 @@ $departments = getAllDepartments($db);
                                     </div>
                                 </td>
                                 <td class="px-8 py-6 whitespace-nowrap text-sm text-gray-600">
-                                    <?php if ($user['role'] === 'doctor'): ?>
+                                    <?php if ($user['role'] === 'trainer'): ?>
                                         <div class="space-y-1">
                                             <div class="font-semibold text-green-700">
                                                 <i class="fas fa-stethoscope mr-1"></i>
@@ -416,7 +416,7 @@ $departments = getAllDepartments($db);
                                                 <?php echo $user['department_name']; ?>
                                             </div>
                                         </div>
-                                    <?php elseif ($user['role'] === 'patient'): ?>
+                                    <?php elseif ($user['role'] === 'user'): ?>
                                         <div class="space-y-1">
                                             <div class="font-medium">
                                                 <i class="fas fa-venus-mars mr-1"></i>
@@ -456,20 +456,20 @@ $departments = getAllDepartments($db);
 
     <script>
         function toggleRoleFields(role) {
-            const doctorFields = document.getElementById('doctor-fields');
-            const patientFields = document.getElementById('patient-fields');
+            const doctorFields = document.getElementById('trainer-fields');
+            const patientFields = document.getElementById('user-fields');
             
             // Hide both sections first
             doctorFields.classList.add('hidden');
             patientFields.classList.add('hidden');
             
             // Show relevant section with animation
-            if (role === 'doctor') {
+            if (role === 'trainer') {
                 doctorFields.classList.remove('hidden');
                 setTimeout(() => {
                     doctorFields.classList.add('animate-slide-up');
                 }, 10);
-            } else if (role === 'patient') {
+            } else if (role === 'user') {
                 patientFields.classList.remove('hidden');
                 setTimeout(() => {
                     patientFields.classList.add('animate-slide-up');
