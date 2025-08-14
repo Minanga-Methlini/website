@@ -3,7 +3,7 @@ require_once '../includes/auth.php';
 require_once '../includes/functions.php';
 require_once '../config/database.php';
 
-requireRole('patient');
+requireRole('user');
 
 $database = new Database();
 $db = $database->getConnection();
@@ -29,13 +29,13 @@ exit;
 // Modified query - assuming the column might be named differently
 // Common alternatives: years_experience, experience, years_of_experience
 $query = "SELECT u.id, u.first_name, u.last_name, u.email, u.phone, 
-                 dp.specialization, dp.qualification, dp.consultation_fee,
+                 dp.specialization, dp.qualification, dp.fee,
                  d.name as department_name, d.id as department_id,
                  COALESCE(dp.experience_years, dp.years_experience, dp.experience, 0) as experience_years
           FROM users u 
-          JOIN doctor_profiles dp ON u.id = dp.user_id
+          JOIN trainer_profiles dp ON u.id = dp.user_id
           JOIN departments d ON dp.department_id = d.id
-          WHERE u.role = 'doctor'";
+          WHERE u.role = 'trainer'";
 
 $params = [];
 
@@ -63,17 +63,17 @@ try {
         $stmt->bindValue($key, $value);
     }
     $stmt->execute();
-    $doctors = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $trainers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     // If the above query fails, try a simpler version without experience column
     $query = "SELECT u.id, u.first_name, u.last_name, u.email, u.phone, 
-                     dp.specialization, dp.qualification, dp.consultation_fee,
+                     dp.specialization, dp.qualification, dp.fee,
                      d.name as department_name, d.id as department_id,
                      0 as experience_years
               FROM users u 
-              JOIN doctor_profiles dp ON u.id = dp.user_id
+              JOIN trainer_profiles dp ON u.id = dp.user_id
               JOIN departments d ON dp.department_id = d.id
-              WHERE u.role = 'doctor'";
+              WHERE u.role = 'trainer'";
 
     $params = [];
 
@@ -109,7 +109,7 @@ $dept_stmt->execute();
 $departments = $dept_stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Get unique specializations for filter
-$spec_query = "SELECT DISTINCT specialization FROM doctor_profiles ORDER BY specialization";
+$spec_query = "SELECT DISTINCT specialization FROM trainer_profiles ORDER BY specialization";
 $spec_stmt = $db->prepare($spec_query);
 $spec_stmt->execute();
 $specializations = $spec_stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -120,7 +120,7 @@ $specializations = $spec_stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find Doctors - Medicare System</title>
+    <title>Find trainer - Beyond Trust</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -220,8 +220,8 @@ $specializations = $spec_stmt->fetchAll(PDO::FETCH_ASSOC);
                         <i class="fas fa-arrow-left text-white text-xl"></i>
                     </a>
                     <div>
-                        <h1 class="text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">Find Doctors</h1>
-                        <p class="text-sm text-gray-500">Discover healthcare specialists</p>
+                        <h1 class="text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">Find Trainer</h1>
+                        <p class="text-sm text-gray-500">Discover specialists</p>
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
@@ -246,7 +246,7 @@ $specializations = $spec_stmt->fetchAll(PDO::FETCH_ASSOC);
                         <i class="fas fa-search text-white text-xl"></i>
                     </div>
                     <div>
-                        <h3 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Search Doctors</h3>
+                        <h3 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Search Trainers</h3>
                         <p class="text-gray-600 font-medium">Find the right healthcare provider for you</p>
                     </div>
                 </div>
@@ -256,7 +256,7 @@ $specializations = $spec_stmt->fetchAll(PDO::FETCH_ASSOC);
                     <!-- Search Bar -->
                     <div class="relative">
                         <input type="text" name="search" value="<?php echo htmlspecialchars($search); ?>" 
-                               placeholder="Search by doctor name or specialty..." 
+                               placeholder="Search by trainer name or specialty..." 
                                class="search-input w-full px-6 py-4 pl-12 border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-green-500 bg-white/90 text-lg">
                         <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl"></i>
                     </div>
@@ -289,7 +289,7 @@ $specializations = $spec_stmt->fetchAll(PDO::FETCH_ASSOC);
 
                         <div class="flex items-end">
                             <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-blue-600 text-white px-6 py-3 rounded-xl hover:from-green-600 hover:to-blue-700 transition-all transform hover:scale-105 shadow-lg font-semibold">
-                                <i class="fas fa-search mr-2"></i>Search Doctors
+                                <i class="fas fa-search mr-2"></i>Search Trainers
                             </button>
                         </div>
                     </div>
@@ -300,79 +300,79 @@ $specializations = $spec_stmt->fetchAll(PDO::FETCH_ASSOC);
         <!-- Results Section -->
         <div class="flex justify-between items-center mb-6">
             <div>
-                <h2 class="text-2xl font-bold text-gray-800">Available Doctors</h2>
-                <p class="text-gray-600"><?php echo count($doctors); ?> doctors found</p>
+                <h2 class="text-2xl font-bold text-gray-800">Available Trainers</h2>
+                <p class="text-gray-600"><?php echo count($doctors); ?> Trainers found</p>
             </div>
         </div>
 
-        <!-- Doctors Grid -->
-        <?php if (empty($doctors)): ?>
+        <!-- trainer Grid -->
+        <?php if (empty($trainers)): ?>
             <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100 p-12 text-center">
                 <div class="bg-gradient-to-br from-gray-100 to-gray-200 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
                     <i class="fas fa-user-md text-gray-400 text-4xl"></i>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-800 mb-4">No doctors found</h3>
-                <p class="text-gray-600 mb-6">Try adjusting your search criteria or browse all doctors.</p>
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">No trainer found</h3>
+                <p class="text-gray-600 mb-6">Try adjusting your search criteria or browse all trainer.</p>
                 <a href="doctors.php" class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-3 rounded-full hover:from-blue-600 hover:to-blue-700 transition-all transform hover:scale-105 shadow-lg">
-                    <i class="fas fa-users mr-2"></i>View All Doctors
+                    <i class="fas fa-users mr-2"></i>View All trainers
                 </a>
             </div>
         <?php else: ?>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <?php foreach ($doctors as $doctor): ?>
+                <?php foreach ($trainers as $trainer): ?>
                     <div class="doctor-card rounded-2xl p-6 border shadow-lg card-hover">
                         <div class="flex items-start justify-between mb-4">
                             <div class="flex items-center space-x-4">
                                 <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold">
-                                    <?php echo strtoupper(substr($doctor['first_name'], 0, 1) . substr($doctor['last_name'], 0, 1)); ?>
+                                    <?php echo strtoupper(substr($trainer['first_name'], 0, 1) . substr($trainer['last_name'], 0, 1)); ?>
                                 </div>
                                 <div>
-                                    <h3 class="text-xl font-bold text-gray-800">Dr. <?php echo htmlspecialchars($doctor['first_name'] . ' ' . $doctor['last_name']); ?></h3>
-                                    <p class="text-gray-600"><?php echo htmlspecialchars($doctor['specialization']); ?></p>
+                                    <h3 class="text-xl font-bold text-gray-800"><?php echo htmlspecialchars($trainer['first_name'] . ' ' . $trainer['last_name']); ?></h3>
+                                    <p class="text-gray-600"><?php echo htmlspecialchars($trainer['specialization']); ?></p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="space-y-3 mb-6">
-                            <?php if ($doctor['experience_years'] > 0): ?>
+                            <?php if ($trainer['experience_years'] > 0): ?>
                             <div class="flex items-center text-gray-600">
                                 <i class="fas fa-graduation-cap mr-3 text-blue-500"></i>
-                                <span><?php echo $doctor['experience_years']; ?> years experience</span>
+                                <span><?php echo $trainer['experience_years']; ?> years experience</span>
                             </div>
                             <?php endif; ?>
                             <div class="flex items-center text-gray-600">
                                 <i class="fas fa-building mr-3 text-green-500"></i>
-                                <span><?php echo htmlspecialchars($doctor['department_name']); ?></span>
+                                <span><?php echo htmlspecialchars($trainer['department_name']); ?></span>
                             </div>
                             <div class="flex items-center text-gray-600">
                                 <i class="fas fa-certificate mr-3 text-purple-500"></i>
-                                <span><?php echo htmlspecialchars($doctor['qualification']); ?></span>
+                                <span><?php echo htmlspecialchars($trainer['qualification']); ?></span>
                             </div>
                             <?php if ($doctor['consultation_fee']): ?>
                             <div class="flex items-center text-gray-600">
                                 <i class="fas fa-dollar-sign mr-3 text-yellow-500"></i>
-                                <span>$<?php echo number_format($doctor['consultation_fee'], 2); ?> consultation fee</span>
+                                <span>$<?php echo number_format($trainer['fee'], 2); ?> Fee</span>
                             </div>
                             <?php endif; ?>
                         </div>
 
                         <div class="flex flex-wrap gap-2 mb-6">
                             <span class="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold border border-blue-300">
-                                <?php echo htmlspecialchars($doctor['specialization']); ?>
+                                <?php echo htmlspecialchars($trainer['specialization']); ?>
                             </span>
-                            <?php if ($doctor['experience_years'] > 0): ?>
+                            <?php if ($trainer['experience_years'] > 0): ?>
                             <span class="bg-gradient-to-r from-green-100 to-green-200 text-green-800 px-3 py-1 rounded-full text-xs font-semibold border border-green-300">
-                                <?php echo $doctor['experience_years']; ?>+ Years
+                                <?php echo $trainer['experience_years']; ?>+ Years
                             </span>
                             <?php endif; ?>
                         </div>
 
                         <div class="flex space-x-3">
-                            <a href="book-appointment.php?doctor_id=<?php echo $doctor['id']; ?>" 
+                            <a href="book-appointment.php?doctor_id=<?php echo trainer['id']; ?>" 
                                class="book-btn text-white px-6 py-3 rounded-xl font-semibold flex-1 text-center hover:shadow-lg">
                                 <i class="fas fa-calendar-plus mr-2"></i>Book Appointment
                             </a>
-                            <button onclick="showDoctorDetails(<?php echo $doctor['id']; ?>)" 
+                            <button onclick="showDoctorDetails(<?php echo $trainer['id']; ?>)" 
                                     class="border-2 border-gray-200 text-gray-600 px-4 py-3 rounded-xl hover:border-green-500 hover:text-green-600 transition-colors">
                                 <i class="fas fa-info-circle"></i>
                             </button>
