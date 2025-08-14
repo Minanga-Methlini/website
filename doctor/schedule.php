@@ -5,7 +5,7 @@ require_once '../includes/functions.php';
 session_start();
 
 // Check if user is logged in and is doctor
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'doctor') {
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'trainer') {
     header('Location: ../login.php');
     exit();
 }
@@ -19,13 +19,13 @@ $error = '';
 // Check if required tables exist and create them if they don't
 try {
     // Check if doctor_schedule table exists
-    $check_table = $db->query("SHOW TABLES LIKE 'doctor_schedule'");
+    $check_table = $db->query("SHOW TABLES LIKE 'trainer_schedule'");
     if ($check_table->rowCount() == 0) {
         // Create doctor_schedule table
         $create_schedule_table = "
-            CREATE TABLE `doctor_schedule` (
+            CREATE TABLE `trainer_schedule` (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
-                `doctor_id` int(11) NOT NULL,
+                `trainer_id` int(11) NOT NULL,
                 `day_of_week` varchar(20) NOT NULL,
                 `start_time` time DEFAULT NULL,
                 `end_time` time DEFAULT NULL,
@@ -34,7 +34,7 @@ try {
                 `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 PRIMARY KEY (`id`),
                 UNIQUE KEY `unique_doctor_day` (`doctor_id`, `day_of_week`),
-                KEY `idx_doctor_id` (`doctor_id`),
+                KEY `idx_trainer_id` (`trainer_id`),
                 KEY `idx_day_of_week` (`day_of_week`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
         ";
@@ -42,13 +42,13 @@ try {
     }
 
     // Check if doctor_breaks table exists
-    $check_breaks = $db->query("SHOW TABLES LIKE 'doctor_breaks'");
+    $check_breaks = $db->query("SHOW TABLES LIKE 'trainer_breaks'");
     if ($check_breaks->rowCount() == 0) {
         // Create doctor_breaks table
         $create_breaks_table = "
-            CREATE TABLE `doctor_breaks` (
+            CREATE TABLE `trainer_breaks` (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
-                `doctor_id` int(11) NOT NULL,
+                `trainer_id` int(11) NOT NULL,
                 `break_date` date NOT NULL,
                 `start_time` time NOT NULL,
                 `end_time` time NOT NULL,
@@ -56,7 +56,7 @@ try {
                 `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
                 `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 PRIMARY KEY (`id`),
-                KEY `idx_doctor_id` (`doctor_id`),
+                KEY `idx_trainer_id` (`trainer_id`),
                 KEY `idx_break_date` (`break_date`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
         ";
@@ -70,8 +70,8 @@ try {
         $create_appointments_table = "
             CREATE TABLE `appointments` (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
-                `patient_id` int(11) NOT NULL,
-                `doctor_id` int(11) NOT NULL,
+                `user_id` int(11) NOT NULL,
+                `trainer_id` int(11) NOT NULL,
                 `appointment_date` date NOT NULL,
                 `appointment_time` time NOT NULL,
                 `status` enum('pending','confirmed','completed','cancelled') DEFAULT 'pending',
@@ -79,8 +79,8 @@ try {
                 `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
                 `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 PRIMARY KEY (`id`),
-                KEY `idx_patient_id` (`patient_id`),
-                KEY `idx_doctor_id` (`doctor_id`),
+                KEY `idx_user_id` (`user_id`),
+                KEY `idx_trainer_id` (`trainer_id`),
                 KEY `idx_appointment_date` (`appointment_date`),
                 KEY `idx_status` (`status`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
@@ -105,27 +105,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $is_available = isset($_POST[$day . '_available']) ? 1 : 0;
                 
                 // Check if schedule exists for this day
-                $check_query = "SELECT id FROM doctor_schedule WHERE doctor_id = :doctor_id AND day_of_week = :day";
+                $check_query = "SELECT id FROM trainer_schedule WHERE trainer_id = :trainer_id AND day_of_week = :day";
                 $check_stmt = $db->prepare($check_query);
-                $check_stmt->bindParam(':doctor_id', $_SESSION['user_id']);
+                $check_stmt->bindParam(':trainer_id', $_SESSION['user_id']);
                 $check_stmt->bindParam(':day', $day);
                 $check_stmt->execute();
                 
                 if ($check_stmt->rowCount() > 0) {
                     // Update existing schedule
-                    $update_query = "UPDATE doctor_schedule SET start_time = :start_time, end_time = :end_time, is_available = :is_available WHERE doctor_id = :doctor_id AND day_of_week = :day";
+                    $update_query = "UPDATE trainer_schedule SET start_time = :start_time, end_time = :end_time, is_available = :is_available WHERE trainer_id = :trainer_id AND day_of_week = :day";
                     $update_stmt = $db->prepare($update_query);
                     $update_stmt->bindParam(':start_time', $start_time);
                     $update_stmt->bindParam(':end_time', $end_time);
                     $update_stmt->bindParam(':is_available', $is_available);
-                    $update_stmt->bindParam(':doctor_id', $_SESSION['user_id']);
+                    $update_stmt->bindParam(':trainer_id', $_SESSION['user_id']);
                     $update_stmt->bindParam(':day', $day);
                     $update_stmt->execute();
                 } else {
                     // Insert new schedule
-                    $insert_query = "INSERT INTO doctor_schedule (doctor_id, day_of_week, start_time, end_time, is_available) VALUES (:doctor_id, :day, :start_time, :end_time, :is_available)";
+                    $insert_query = "INSERT INTO trainer_schedule (trainer_id, day_of_week, start_time, end_time, is_available) VALUES (:trainer_id, :day, :start_time, :end_time, :is_available)";
                     $insert_stmt = $db->prepare($insert_query);
-                    $insert_stmt->bindParam(':doctor_id', $_SESSION['user_id']);
+                    $insert_stmt->bindParam(':trainer_id', $_SESSION['user_id']);
                     $insert_stmt->bindParam(':day', $day);
                     $insert_stmt->bindParam(':start_time', $start_time);
                     $insert_stmt->bindParam(':end_time', $end_time);
@@ -143,9 +143,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $break_end = $_POST['break_end'];
             $break_reason = $_POST['break_reason'];
             
-            $insert_break_query = "INSERT INTO doctor_breaks (doctor_id, break_date, start_time, end_time, reason) VALUES (:doctor_id, :break_date, :start_time, :end_time, :reason)";
+            $insert_break_query = "INSERT INTO trainer_breaks (trainer_id, break_date, start_time, end_time, reason) VALUES (:trainer_id, :break_date, :start_time, :end_time, :reason)";
             $insert_break_stmt = $db->prepare($insert_break_query);
-            $insert_break_stmt->bindParam(':doctor_id', $_SESSION['user_id']);
+            $insert_break_stmt->bindParam(':trainer_id', $_SESSION['user_id']);
             $insert_break_stmt->bindParam(':break_date', $break_date);
             $insert_break_stmt->bindParam(':start_time', $break_start);
             $insert_break_stmt->bindParam(':end_time', $break_end);
@@ -166,9 +166,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $current_schedule = [];
 $schedule_data = [];
 try {
-    $schedule_query = "SELECT * FROM doctor_schedule WHERE doctor_id = :doctor_id";
+    $schedule_query = "SELECT * FROM trainer_schedule WHERE trainer_id = :trainer_id";
     $schedule_stmt = $db->prepare($schedule_query);
-    $schedule_stmt->bindParam(':doctor_id', $_SESSION['user_id']);
+    $schedule_stmt->bindParam(':trainer_id', $_SESSION['user_id']);
     $schedule_stmt->execute();
     $current_schedule = $schedule_stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -183,9 +183,9 @@ try {
 // Get upcoming breaks
 $upcoming_breaks = [];
 try {
-    $breaks_query = "SELECT * FROM doctor_breaks WHERE doctor_id = :doctor_id AND break_date >= CURDATE() ORDER BY break_date, start_time";
+    $breaks_query = "SELECT * FROM trainer_breaks WHERE trainer_id = :trainer_id AND break_date >= CURDATE() ORDER BY break_date, start_time";
     $breaks_stmt = $db->prepare($breaks_query);
-    $breaks_stmt->bindParam(':doctor_id', $_SESSION['user_id']);
+    $breaks_stmt->bindParam(':trainer_id', $_SESSION['user_id']);
     $breaks_stmt->execute();
     $upcoming_breaks = $breaks_stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -197,14 +197,14 @@ try {
 $today_appointments = [];
 try {
     $today_query = "
-        SELECT a.*, CONCAT(p.first_name, ' ', p.last_name) as patient_name
+        SELECT a.*, CONCAT(p.first_name, ' ', p.last_name) as user_name
         FROM appointments a 
-        JOIN users p ON a.patient_id = p.id 
-        WHERE a.doctor_id = :doctor_id AND DATE(a.appointment_date) = CURDATE()
+        JOIN users p ON a.user_id = p.id 
+        WHERE a.trainer_id = :trainer_id AND DATE(a.appointment_date) = CURDATE()
         ORDER BY a.appointment_time
     ";
     $today_stmt = $db->prepare($today_query);
-    $today_stmt->bindParam(':doctor_id', $_SESSION['user_id']);
+    $today_stmt->bindParam(':trainer_id', $_SESSION['user_id']);
     $today_stmt->execute();
     $today_appointments = $today_stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -218,7 +218,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Schedule - Doctor Dashboard</title>
+    <title>Manage Schedule - trainer Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -473,7 +473,7 @@ try {
                             <?php foreach ($today_appointments as $appointment): ?>
                                 <div class="appointment-slot p-3 rounded-lg flex items-center justify-between">
                                     <div>
-                                        <div class="font-semibold"><?php echo htmlspecialchars($appointment['patient_name']); ?></div>
+                                        <div class="font-semibold"><?php echo htmlspecialchars($appointment['user_name']); ?></div>
                                         <div class="text-sm opacity-90"><?php echo date('h:i A', strtotime($appointment['appointment_time'])); ?></div>
                                     </div>
                                     <div class="text-right">
