@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medicare Appointment System - Healthcare Made Simple</title>
+    <title>Beyond Trust - Healthcare Services</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -96,8 +96,8 @@
                         <div class="absolute -top-1 -right-1 w-3 h-3 bg-secondary rounded-full animate-ping"></div>
                     </div>
                     <div>
-                        <h1 class="text-2xl font-bold gradient-text">Medicare</h1>
-                        <p class="text-xs text-gray-500 font-medium">Healthcare Made Simple</p>
+                        <h1 class="text-2xl font-bold gradient-text">Beyond Trust</h1>
+                        <p class="text-xs text-gray-500 font-medium">Healthcare Services</p>
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
@@ -122,7 +122,7 @@
                 <div class="mb-6">
                     <span class="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold inline-flex items-center space-x-2">
                         <i class="fas fa-star text-accent"></i>
-                        <span>Trusted by 1000+ Patients</span>
+                        <span>Trusted by 1000+ Clients</span>
                     </span>
                 </div>
                 <h2 class="text-6xl font-bold text-gray-800 mb-6 leading-tight">
@@ -130,9 +130,7 @@
                     <span class="gradient-text">Made Simple</span>
                 </h2>
                 <p class="text-xl text-gray-600 mb-8 leading-relaxed">
-                    Experience seamless healthcare management with our comprehensive platform. 
-                    Book appointments, access medical records, and connect with top healthcare professionals 
-                    from the comfort of your home.
+                    Beyond Trust Health Care Services — Your health, our priority. Book, connect, and care, anytime, anywhere.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 mb-8">
                     <a href="register.php" class="bg-primary text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-blue-700 transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center justify-center space-x-2">
@@ -197,8 +195,8 @@
                         <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
                              alt="Doctor Dashboard" 
                              class="w-full h-48 object-cover rounded-xl mb-6 shadow-lg">
-                        <h4 class="text-2xl font-bold text-gray-800 mb-4">For Doctors</h4>
-                        <p class="text-gray-600 mb-6">Streamline your practice with advanced scheduling, patient management, and digital health records. Focus on what matters most - patient care.</p>
+                        <h4 class="text-2xl font-bold text-gray-800 mb-4">For Trainers</h4>
+                        <p class="text-gray-600 mb-6">Simplify healthcare with easy scheduling, smooth client management, and instant access to health records — giving you more time to care for the people who matter most.</p>
                         <ul class="space-y-2 text-sm text-gray-500">
                             <li class="flex items-center space-x-2">
                                 <i class="fas fa-check text-secondary"></i>
@@ -210,7 +208,7 @@
                             </li>
                             <li class="flex items-center space-x-2">
                                 <i class="fas fa-check text-secondary"></i>
-                                <span>Patient Communication Tools</span>
+                                <span>Client Communication Tools</span>
                             </li>
                         </ul>
                     </div>
@@ -293,7 +291,7 @@
                         <div class="text-5xl font-bold text-white mb-3">1000+</div>
                         <div class="text-blue-100 font-medium flex items-center justify-center space-x-2">
                             <i class="fas fa-users"></i>
-                            <span>Happy Patients</span>
+                            <span>Happy Clients</span>
                         </div>
                         <div class="mt-2 w-16 h-1 bg-white/30 mx-auto rounded-full">
                             <div class="h-full bg-white rounded-full animate-pulse" style="width: 95%"></div>
@@ -303,7 +301,7 @@
                         <div class="text-5xl font-bold text-white mb-3">50+</div>
                         <div class="text-blue-100 font-medium flex items-center justify-center space-x-2">
                             <i class="fas fa-user-md"></i>
-                            <span>Expert Doctors</span>
+                            <span>Expert Trainers</span>
                         </div>
                         <div class="mt-2 w-16 h-1 bg-white/30 mx-auto rounded-full">
                             <div class="h-full bg-white rounded-full animate-pulse" style="width: 87%"></div>
@@ -337,7 +335,7 @@
         <div class="text-center py-20 animate-slide-up">
             <div class="max-w-3xl mx-auto">
                 <h3 class="text-4xl font-bold text-gray-800 mb-6">Ready to Transform Your Healthcare Experience?</h3>
-                <p class="text-xl text-gray-600 mb-8">Join thousands of patients and healthcare providers who trust our platform for their medical needs.</p>
+                <p class="text-xl text-gray-600 mb-8">Join thousands of clients and healthcare providers who trust our platform for their medical needs.</p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     <a href="register.php" class="bg-primary text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-blue-700 transition-all duration-300 shadow-xl hover:shadow-2xl inline-flex items-center justify-center space-x-2">
                         <i class="fas fa-user-plus"></i>
@@ -362,9 +360,9 @@
                 <div>
                     <div class="flex items-center space-x-2 mb-4">
                         <i class="fas fa-heartbeat text-primary text-2xl"></i>
-                        <h4 class="text-xl font-bold">Medicare</h4>
+                        <h4 class="text-xl font-bold">Beyond Trust</h4>
                     </div>
-                    <p class="text-gray-300 mb-4">Making healthcare accessible, efficient, and patient-centered through innovative technology solutions.</p>
+                    <p class="text-gray-300 mb-4">Making healthcare accessible, efficient, and client-centered through innovative technology solutions.</p>
                     <div class="flex space-x-3">
                         <a href="#" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-primary transition-all duration-300">
                             <i class="fab fa-facebook text-sm"></i>
@@ -382,7 +380,7 @@
                     <ul class="space-y-2 text-gray-300">
                         <li><a href="#" class="hover:text-primary transition-colors">About Us</a></li>
                         <li><a href="#" class="hover:text-primary transition-colors">Services</a></li>
-                        <li><a href="#" class="hover:text-primary transition-colors">Doctors</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Trainers</a></li>
                         <li><a href="#" class="hover:text-primary transition-colors">Contact</a></li>
                     </ul>
                 </div>
@@ -400,15 +398,15 @@
                     <ul class="space-y-3 text-gray-300">
                         <li class="flex items-center space-x-2">
                             <i class="fas fa-phone text-primary"></i>
-                            <span>+1 (555) 123-4567</span>
+                            <span>+1 (999) 987-24567</span>
                         </li>
                         <li class="flex items-center space-x-2">
                             <i class="fas fa-envelope text-primary"></i>
-                            <span>info@medicare.com</span>
+                            <span>info@beyondm.com</span>
                         </li>
                         <li class="flex items-center space-x-2">
                             <i class="fas fa-map-marker-alt text-primary"></i>
-                            <span>123 Healthcare St, Medical City</span>
+                            <span>1A,Main road, Malabe</span>
                         </li>
                     </ul>
                 </div>
@@ -416,7 +414,7 @@
             
             <div class="border-t border-gray-700 pt-8 text-center">
                 <p class="text-gray-400">
-                    &copy; 2024 Medicare Appointment System. All rights reserved. 
+                    &copy; 2025 Beyond Trust - Healthcare System. All rights reserved. 
                     <span class="text-primary">Made with ❤️ for better healthcare</span>
                 </p>
             </div>
