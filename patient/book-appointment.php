@@ -55,11 +55,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->bindParam(':appointment_time', $appointment_time);
             $stmt->bindParam(':notes', $notes);
             
-            if ($stmt->execute()) {
-                $success = 'Appointment booked successfully! You will receive a confirmation soon.';
-            } else {
-                $error = 'Failed to book appointment. Please try again.';
-            }
+            
+                if ($stmt->execute()) {
+                    $_SESSION['appointment_id'] = $db->lastInsertId();
+                    header("Location: payment.php"); // Redirect to payment page
+                    exit;
+                } else {
+                    $error = 'Failed to book appointment. Please try again.';
+                }
         }
     }
 }
@@ -261,7 +264,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <button type="submit" 
                                 class="btn-primary text-white px-8 py-3 rounded-lg font-semibold flex items-center justify-center flex-1">
                             <i class="fas fa-calendar-check mr-2"></i>
-                            Book Appointment
+                            Book Appointment & Pay
+                          
                         </button>
                         <a href="dashboard.php" 
                            class="btn-secondary text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-200 transition flex items-center justify-center">

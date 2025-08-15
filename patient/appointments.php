@@ -6,6 +6,8 @@
     <title>Appointment History</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 </head>
 <body class="bg-gray-50">
 
@@ -161,10 +163,12 @@ function formatDate(date) {
                     </h1>
                     <p class="text-gray-600 mt-1">View and manage your past and upcoming appointments</p>
                 </div>
-                <button onclick="exportHistory()" class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                    <i class="fas fa-download"></i>
-                    Export History
-                </button>
+                <button onclick="exportHistory()" 
+    class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"> 
+    <i class="fas fa-download"></i>
+    Export History
+</button>
+
             </div>
 
             <!-- Search and Filters -->
@@ -231,7 +235,25 @@ function formatDate(date) {
     </div>
 </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
+    async function exportHistory() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        const element = document.getElementById("historyTable"); // Change to your table's ID
+
+        await html2canvas(element).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const imgProps = doc.getImageProperties(imgData);
+            const pdfWidth = doc.internal.pageSize.getWidth();
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+            doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            doc.save("history.pdf");
+        });
+    }
+
+
 function generateAppointmentCards() {
     const appointmentsList = document.getElementById('appointmentsList');
     appointmentsList.innerHTML = '';
