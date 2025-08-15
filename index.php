@@ -118,9 +118,9 @@
     <div class="max-w-7xl mx-auto px-4 py-16">
         <div class="grid lg:grid-cols-2 gap-12 items-center mb-20">
             <!-- Left Content -->
-            <div class="relative animate-fade-in" style="animation-delay: 0.3s">
+            <div class="relative animate-fade-in" styl="animation-delay: 0.3s">
                 <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                    <img src="images/homepg.jpg"
                          alt="Modern Healthcare Technology" 
                          class="rounded-2xl shadow-2xl animate-float">
                     <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl">
@@ -134,7 +134,7 @@
                     </div>
                 </div>
             </div>
-            
+
         
             <!-- Right Content -->
             
