@@ -25,12 +25,12 @@ function getUserById($id) {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-function getDoctorProfile($user_id) {
+function gettrainerProfile($user_id) {
     $database = new Database();
     $db = $database->getConnection();
     
     $query = "SELECT dp.*, d.name as department_name 
-              FROM doctor_profiles dp 
+              FROM trainer_profiles dp 
               JOIN departments d ON dp.department_id = d.id 
               WHERE dp.user_id = :user_id";
     $stmt = $db->prepare($query);
@@ -40,11 +40,11 @@ function getDoctorProfile($user_id) {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-function getPatientProfile($user_id) {
+function getuserProfile($user_id) {
     $database = new Database();
     $db = $database->getConnection();
     
-    $query = "SELECT * FROM patient_profiles WHERE user_id = :user_id";
+    $query = "SELECT * FROM user_profiles WHERE user_id = :user_id";
     $stmt = $db->prepare($query);
     $stmt->bindParam(':user_id', $user_id);
     $stmt->execute();
@@ -52,36 +52,36 @@ function getPatientProfile($user_id) {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-function getAllAppointments($doctor_id = null) {
+function getAllAppointments($trainer_id = null) {
     $database = new Database();
     $db = $database->getConnection();
     
     $query = "SELECT a.*, 
-                     p.first_name as patient_first, p.last_name as patient_last, p.phone as patient_phone,
-                     d.first_name as doctor_first, d.last_name as doctor_last,
+                     p.first_name as user_first, p.last_name as user_last, p.phone as user_phone,
+                     d.first_name as trainer_first, d.last_name as trainer_last,
                      dept.name as department_name
               FROM appointments a
-              JOIN users p ON a.patient_id = p.id
-              JOIN users d ON a.doctor_id = d.id
-              LEFT JOIN doctor_profiles dp ON d.id = dp.user_id
+              JOIN users p ON a._id = p.id
+              JOIN users d ON a.trainer_id = d.id
+              LEFT JOIN trainer_profiles dp ON d.id = dp.user_id
               LEFT JOIN departments dept ON dp.department_id = dept.id";
     
-    if ($doctor_id) {
-        $query .= " WHERE a.doctor_id = :doctor_id";
+    if ($trainer_id) {
+        $query .= " WHERE a.trainer_id = :trainer_id";
     }
     
     $query .= " ORDER BY a.appointment_date DESC, a.appointment_time DESC";
     
     $stmt = $db->prepare($query);
-    if ($doctor_id) {
-        $stmt->bindParam(':doctor_id', $doctor_id);
+    if ($trainer_id) {
+        $stmt->bindParam(':trainer_id', $trainer_id);
     }
     $stmt->execute();
     
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getPatientsByDoctor($doctor_id) {
+function getUserByTrainer($trainer_id) {
     $database = new Database();
     $db = $database->getConnection();
     
@@ -89,14 +89,14 @@ function getPatientsByDoctor($doctor_id) {
                      COUNT(a.id) as total_appointments,
                      MAX(a.appointment_date) as last_visit
               FROM users u
-              JOIN appointments a ON u.id = a.patient_id
-              LEFT JOIN patient_profiles pp ON u.id = pp.user_id
-              WHERE a.doctor_id = :doctor_id AND u.role = 'patient'
+              JOIN appointments a ON u.id = a.user_id
+              LEFT JOIN user_profiles pp ON u.id = pp.user_id
+              WHERE a.trainer_id = :trainer_id AND u.role = 'user'
               GROUP BY u.id
               ORDER BY last_visit DESC";
     
     $stmt = $db->prepare($query);
-    $stmt->bindParam(':doctor_id', $doctor_id);
+    $stmt->bindParam(':trainer_id', $trainer_id);
     $stmt->execute();
     
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -120,11 +120,11 @@ function getAllUsers($role = null) {
     
     $query = "SELECT u.*, 
                      CASE 
-                         WHEN u.role = 'doctor' THEN dept.name
+                         WHEN u.role = 'trainer' THEN dept.name
                          ELSE NULL 
                      END as department_name
               FROM users u
-              LEFT JOIN doctor_profiles dp ON u.id = dp.user_id
+              LEFT JOIN trainer_profiles dp ON u.id = dp.user_id
               LEFT JOIN departments dept ON dp.department_id = dept.id";
     
     if ($role) {
@@ -166,11 +166,11 @@ function createUser($username, $email, $password, $role, $first_name, $last_name
     return false;
 }
 
-function createDoctorProfile($user_id, $department_id, $specialization = null, $bio = null) {
+function createrTrainerProfile($user_id, $department_id, $specialization = null, $bio = null) {
     $database = new Database();
     $db = $database->getConnection();
     
-    $query = "INSERT INTO doctor_profiles (user_id, department_id, specialization, bio) 
+    $query = "INSERT INTO trainer_profiles (user_id, department_id, specialization, bio) 
               VALUES (:user_id, :department_id, :specialization, :bio)";
     
     $stmt = $db->prepare($query);
@@ -182,11 +182,11 @@ function createDoctorProfile($user_id, $department_id, $specialization = null, $
     return $stmt->execute();
 }
 
-function createPatientProfile($user_id, $date_of_birth = null, $gender = null, $address = null, $emergency_contact = null) {
+function createUserProfile($user_id, $date_of_birth = null, $gender = null, $address = null, $emergency_contact = null) {
     $database = new Database();
     $db = $database->getConnection();
     
-    $query = "INSERT INTO patient_profiles (user_id, date_of_birth, gender, address, emergency_contact) 
+    $query = "INSERT INTO user_profiles (user_id, date_of_birth, gender, address, emergency_contact) 
               VALUES (:user_id, :date_of_birth, :gender, :address, :emergency_contact)";
     
     $stmt = $db->prepare($query);
@@ -214,9 +214,9 @@ function getAllDepartments() {
     $database = new Database();
     $db = $database->getConnection();
     
-    $query = "SELECT d.*, COUNT(dp.id) as doctor_count 
+    $query = "SELECT d.*, COUNT(dp.id) as trainer_count 
               FROM departments d 
-              LEFT JOIN doctor_profiles dp ON d.id = dp.department_id 
+              LEFT JOIN trainer_profiles dp ON d.id = dp.department_id 
               GROUP BY d.id 
               ORDER BY d.name";
     
@@ -262,30 +262,30 @@ function deleteDepartment($id) {
     return $stmt->execute();
 }
 
-function addMedicalNote($appointment_id, $doctor_id, $diagnosis = null, $prescription = null, $notes = null) {
+function addNote($appointment_id, $trainer_id, $diagnosis = null, $discription = null, $notes = null) {
     $database = new Database();
     $db = $database->getConnection();
     
-    $query = "INSERT INTO medical_notes (appointment_id, doctor_id, diagnosis, prescription, notes) 
-              VALUES (:appointment_id, :doctor_id, :diagnosis, :prescription, :notes)";
+    $query = "INSERT INTO notes (appointment_id, trainer_id, diagnosis, discription, notes) 
+              VALUES (:appointment_id, :trainer_id, :diagnosis, :discription, :notes)";
     
     $stmt = $db->prepare($query);
     $stmt->bindParam(':appointment_id', $appointment_id);
-    $stmt->bindParam(':doctor_id', $doctor_id);
+    $stmt->bindParam(':trainer_id', $trainer_id);
     $stmt->bindParam(':diagnosis', $diagnosis);
-    $stmt->bindParam(':prescription', $prescription);
+    $stmt->bindParam(':discription', $discription);
     $stmt->bindParam(':notes', $notes);
     
     return $stmt->execute();
 }
 
-function getMedicalNotes($appointment_id) {
+function getNotes($appointment_id) {
     $database = new Database();
     $db = $database->getConnection();
     
     $query = "SELECT mn.*, u.first_name, u.last_name 
-              FROM medical_notes mn 
-              JOIN users u ON mn.doctor_id = u.id 
+              FROM notes mn 
+              JOIN users u ON mn.trainer_id = u.id 
               WHERE mn.appointment_id = :appointment_id";
     
     $stmt = $db->prepare($query);
@@ -295,15 +295,15 @@ function getMedicalNotes($appointment_id) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getAvailableDoctors($department_id = null) {
+function getAvailableTrainer($department_id = null) {
     $database = new Database();
     $db = $database->getConnection();
     
     $query = "SELECT u.*, dp.specialization, d.name as department_name 
               FROM users u 
-              JOIN doctor_profiles dp ON u.id = dp.user_id 
+              JOIN trainer_profiles dp ON u.id = dp.user_id 
               JOIN departments d ON dp.department_id = d.id 
-              WHERE u.role = 'doctor'";
+              WHERE u.role = 'trainer'";
     
     if ($department_id) {
         $query .= " AND dp.department_id = :department_id";
@@ -320,16 +320,16 @@ function getAvailableDoctors($department_id = null) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function bookAppointment($patient_id, $doctor_id, $appointment_date, $appointment_time, $notes = null) {
+function bookAppointment($user_id, $trainer_id, $appointment_date, $appointment_time, $notes = null) {
     $database = new Database();
     $db = $database->getConnection();
     
-    $query = "INSERT INTO appointments (patient_id, doctor_id, appointment_date, appointment_time, notes) 
-              VALUES (:patient_id, :doctor_id, :appointment_date, :appointment_time, :notes)";
+    $query = "INSERT INTO appointments (user_id, trainer_id, appointment_date, appointment_time, notes) 
+              VALUES (:user_id, :trainer_id, :appointment_date, :appointment_time, :notes)";
     
     $stmt = $db->prepare($query);
-    $stmt->bindParam(':patient_id', $patient_id);
-    $stmt->bindParam(':doctor_id', $doctor_id);
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->bindParam(':trainer_id', $trainer_id);
     $stmt->bindParam(':appointment_date', $appointment_date);
     $stmt->bindParam(':appointment_time', $appointment_time);
     $stmt->bindParam(':notes', $notes);
