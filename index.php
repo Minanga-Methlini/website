@@ -118,7 +118,27 @@
     <div class="max-w-7xl mx-auto px-4 py-16">
         <div class="grid lg:grid-cols-2 gap-12 items-center mb-20">
             <!-- Left Content -->
-            <div class="animate-slide-up">
+            <div class="relative animate-fade-in" style="animation-delay: 0.3s">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Modern Healthcare Technology" 
+                         class="rounded-2xl shadow-2xl animate-float">
+                    <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-3 h-3 bg-secondary rounded-full animate-ping"></div>
+                            <span class="text-sm font-semibold text-gray-700">Online Now</span>
+                        </div>
+                    </div>
+                    <div class="absolute -top-6 -right-6 bg-primary text-white p-4 rounded-xl shadow-xl">
+                        <i class="fas fa-user-md text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+            
+        
+            <!-- Right Content -->
+            
+<div class="animate-slide-up">
                 <div class="mb-6">
                     <span class="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold inline-flex items-center space-x-2">
                         <i class="fas fa-star text-accent"></i>
@@ -157,24 +177,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Right Content - Hero Image -->
-            <div class="relative animate-fade-in" style="animation-delay: 0.3s">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Modern Healthcare Technology" 
-                         class="rounded-2xl shadow-2xl animate-float">
-                    <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-3 h-3 bg-secondary rounded-full animate-ping"></div>
-                            <span class="text-sm font-semibold text-gray-700">Online Now</span>
-                        </div>
-                    </div>
-                    <div class="absolute -top-6 -right-6 bg-primary text-white p-4 rounded-xl shadow-xl">
-                        <i class="fas fa-user-md text-2xl"></i>
-                    </div>
-                </div>
-            </div>
+             </div>
         </div>
 
         <!-- Enhanced Features Grid -->
@@ -414,7 +417,7 @@
             
             <div class="border-t border-gray-700 pt-8 text-center">
                 <p class="text-gray-400">
-                    &copy; 2025 Beyond Trust - Healthcare System. All rights reserved. 
+                    &copy; 2025 Beyond Trust Healthcare System. All rights reserved. 
                     <span class="text-primary">Made with ❤️ for better healthcare</span>
                 </p>
             </div>
