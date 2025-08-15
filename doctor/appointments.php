@@ -48,7 +48,11 @@ $appointments = $appointmentManager->gettrainerAppointments($_SESSION['user_id']
         .appointment-row:hover { background: linear-gradient(90deg, rgba(99, 102, 241, 0.02) 0%, rgba(168, 85, 247, 0.02) 100%); }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+<body class="min-h-screen py-8 relative" 
+      style="background: linear-gradient(135deg, #ec6d2dff 0%, #cc12f1ff 50%, #09f1d3ff 100%); 
+             background-size: cover;
+             background-position: center;">
+
     <!-- Enhanced Navigation with Glass Effect -->
     <nav class="glass-effect border-b border-white/20 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -286,7 +290,7 @@ $appointments = $appointmentManager->gettrainerAppointments($_SESSION['user_id']
                                             </form>
                                             <?php endif; ?>
                                             
-                                            <a href="patient_details.php?patient_id=<?php echo $appointment['patient_id']; ?>" 
+                                            <a href="user_details.php?user_id=<?php echo $appointment['user_id']; ?>" 
                                                class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-3 py-2 rounded-lg text-sm hover:from-indigo-600 hover:to-purple-600 transition-all shadow-md hover:shadow-lg transform hover:scale-105">
                                                 <i class="fas fa-eye mr-1"></i>View
                                             </a>

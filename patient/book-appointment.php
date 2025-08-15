@@ -124,11 +124,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="min-h-screen py-8 relative p-6" 
+      style="background: linear-gradient(135deg, #ec6d2dff 0%, #cc12f1ff 50%, #09f1d3ff 100%); 
+             background-size: cover;
+             background-position: center;">
 
 <div class="min-h-screen">
     <!-- Navigation -->
-    <nav class="gradient-bg shadow-sm">
+    <nav class="white-bg shadow-sm">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between items-center py-4">
                 <div class="flex items-center space-x-3">
@@ -141,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <a href="dashboard.php" class="text-white hover:text-gray-200 transition flex items-center">
                         <i class="fas fa-arrow-left mr-2"></i>Dashboard
                     </a>
-                    <a href="../includes/logout.php" class="bg-white bg-opacity-20 text-white px-4 py-2 rounded-lg hover:bg-opacity-30 transition flex items-center">
+                    <a href="../includes/logout.php" class="bg-white bg-opacity-40 text-white px-4 py-2 rounded-lg hover:bg-opacity-30 transition flex items-center">
                         <i class="fas fa-sign-out-alt mr-2"></i>Logout
                     </a>
                 </div>

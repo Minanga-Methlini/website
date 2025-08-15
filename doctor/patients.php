@@ -1,13 +1,14 @@
 <?php
-// Static sample data - no database connection required
+// ------------------------------
+// Demo data (no DB connection)
+// ------------------------------
 $stats = [
-    'total_patients' => 156,
-    'active_patients' => 142,
-    'inactive_patients' => 14,
-    'new_today' => 3
+    'total_user'   => 156,
+    'active_user'  => 142,
+    'inactive_user'=> 14,
+    'new_today'    => 3,
 ];
 
-// Sample patient data
 $patients = [
     [
         'id' => 1,
@@ -80,29 +81,35 @@ $patients = [
         'status' => 'active',
         'total_appointments' => 9,
         'last_visit' => '2024-08-11'
-    ]
+    ],
 ];
 
-// Handle search and filters (for demonstration)
-$search = isset($_GET['search']) ? $_GET['search'] : '';
-$status_filter = isset($_GET['status']) ? $_GET['status'] : '';
+// ------------------------------
+// Search & filter inputs
+// ------------------------------
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+$status_filter = isset($_GET['status']) ? trim($_GET['status']) : '';
 
-// Filter user based on search and status
-$filtered_user = $user;
+// ------------------------------
+// ✅ Initialize filtered list (prevents undefined variable / count errors)
+// ------------------------------
+$filtered_user = $patients; // canonical variable used everywhere below
 
-if (!empty($search)) {
-    $filtered_user = array_filter($filtered_user, function($user) use ($search) {
-        $searchLower = strtolower($search);
-        return strpos(strtolower($user['first_name']), $searchLower) !== false ||
-               strpos(strtolower($user['last_name']), $searchLower) !== false ||
-               strpos(strtolower($user['email']), $searchLower) !== false ||
-               strpos($user['phone'], $search) !== false;
+if ($search !== '') {
+    $needle = strtolower($search);
+    $filtered_user = array_filter($filtered_user, function ($user) use ($needle) {
+        return (
+            strpos(strtolower($user['first_name']), $needle) !== false ||
+            strpos(strtolower($user['last_name']), $needle) !== false ||
+            strpos(strtolower($user['email']), $needle) !== false ||
+            strpos($user['phone'], $needle) !== false
+        );
     });
 }
 
-if (!empty($status_filter)) {
-    $filtered_user = array_filter($filtered_user, function($user) use ($status_filter) {
-        return $user['status'] === $status_filter;
+if ($status_filter !== '') {
+    $filtered_user = array_filter($filtered_user, function ($user) use ($status_filter) {
+        return isset($user['status']) && $user['status'] === $status_filter;
     });
 }
 ?>
@@ -110,448 +117,88 @@ if (!empty($status_filter)) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Records - Beyond Trust</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-        }
-
-        .header {
-            background: white;
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .logo-text h1 {
-            font-size: 1.5rem;
-            color: #4f46e5;
-            font-weight: 600;
-        }
-
-        .logo-text p {
-            font-size: 0.9rem;
-            color: #6b7280;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .status-indicator {
-            width: 8px;
-            height: 8px;
-            background: #10b981;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .logout-btn {
-            background: #ef4444;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 500;
-            transition: background 0.2s;
-            text-decoration: none;
-        }
-
-        .logout-btn:hover {
-            background: #dc2626;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .page-header {
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-
-        .page-title {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .page-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #10b981, #059669);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: transform 0.2s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-        }
-
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: #333; }
+        .header { background: white; padding: 1rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 0.5rem; }
+        .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.2rem; }
+        .logo-text h1 { font-size: 1.5rem; color: #4f46e5; font-weight: 600; }
+        .logo-text p { font-size: 0.9rem; color: #6b7280; }
+        .user-info { display: flex; align-items: center; gap: 1rem; }
+        .status-indicator { width: 8px; height: 8px; background: #10b981; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .logout-btn { background: #ef4444; color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; font-weight: 500; transition: background 0.2s; text-decoration: none; }
+        .logout-btn:hover { background: #dc2626; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        .page-header { background: white; border-radius: 16px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .page-title { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        .page-icon { width: 50px; height: 50px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 1rem; transition: transform 0.2s; }
+        .stat-card:hover { transform: translateY(-2px); }
+        .stat-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; }
         .stat-icon.total { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
         .stat-icon.active { background: linear-gradient(135deg, #10b981, #059669); }
         .stat-icon.inactive { background: linear-gradient(135deg, #f59e0b, #d97706); }
         .stat-icon.new { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
-
-        .stat-info h3 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-
-        .stat-info p {
-            color: #6b7280;
-            font-size: 0.9rem;
-        }
-
-        .search-section {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-
-        .search-form {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .search-input {
-            flex: 1;
-            min-width: 250px;
-            padding: 0.75rem 1rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.2s;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: #4f46e5;
-        }
-
-        .filter-select {
-            padding: 0.75rem 1rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 1rem;
-            background: white;
-        }
-
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-primary {
-            background: #4f46e5;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #4338ca;
-        }
-
-        .btn-success {
-            background: #10b981;
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: #059669;
-        }
-
-        .btn-secondary {
-            background: #6b7280;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #4b5563;
-        }
-
-        .patients-table {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-
-        .table-header {
-            background: #f8fafc;
-            padding: 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .table-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .table th,
-        .table td {
-            padding: 1rem 1.5rem;
-            text-align: left;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .table th {
-            background: #f8fafc;
-            font-weight: 600;
-            color: #374151;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .table tbody tr:hover {
-            background: #f8fafc;
-        }
-
-        .patient-info {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .patient-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .patient-details h4 {
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-
-        .patient-details p {
-            color: #6b7280;
-            font-size: 0.9rem;
-        }
-
-        .status-badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .status-active {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .status-inactive {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .btn-sm {
-            padding: 0.5rem 0.75rem;
-            font-size: 0.8rem;
-        }
-
-        .btn-info {
-            background: #0ea5e9;
-            color: white;
-        }
-
-        .btn-info:hover {
-            background: #0284c7;
-        }
-
-        .btn-warning {
-            background: #f59e0b;
-            color: white;
-        }
-
-        .btn-warning:hover {
-            background: #d97706;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: #6b7280;
-        }
-
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
-        }
-
-        .demo-notice {
-            background: linear-gradient(135deg, #fef3c7, #fde68a);
-            border: 2px solid #f59e0b;
-            border-radius: 12px;
-            padding: 1rem;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .demo-notice i {
-            color: #d97706;
-            font-size: 1.2rem;
-        }
-
-        .demo-notice p {
-            color: #92400e;
-            font-weight: 500;
-        }
-
+        .stat-info h3 { font-size: 1.8rem; font-weight: 600; margin-bottom: 0.25rem; }
+        .stat-info p { color: #6b7280; font-size: 0.9rem; }
+        .search-section { background: white; border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .search-form { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+        .search-input { flex: 1; min-width: 250px; padding: 0.75rem 1rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; transition: border-color 0.2s; }
+        .search-input:focus { outline: none; border-color: #4f46e5; }
+        .filter-select { padding: 0.75rem 1rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; background: white; }
+        .btn { padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .btn-primary { background: #4f46e5; color: white; }
+        .btn-primary:hover { background: #4338ca; }
+        .btn-success { background: #10b981; color: white; }
+        .btn-success:hover { background: #059669; }
+        .btn-secondary { background: #6b7280; color: white; }
+        .btn-secondary:hover { background: #4b5563; }
+        .patients-table { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .table-header { background: #f8fafc; padding: 1.5rem; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+        .table-title { font-size: 1.2rem; font-weight: 600; }
+        .table { width: 100%; border-collapse: collapse; }
+        .table th, .table td { padding: 1rem 1.5rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        .table th { background: #f8fafc; font-weight: 600; color: #374151; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .table tbody tr:hover { background: #f8fafc; }
+        .patient-info { display: flex; align-items: center; gap: 0.75rem; }
+        .patient-avatar { width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 0.9rem; }
+        .patient-details h4 { font-weight: 600; margin-bottom: 0.25rem; }
+        .patient-details p { color: #6b7280; font-size: 0.9rem; }
+        .status-badge { padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+        .status-active { background: #d1fae5; color: #065f46; }
+        .status-inactive { background: #fef3c7; color: #92400e; }
+        .actions { display: flex; gap: 0.5rem; }
+        .btn-sm { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
+        .btn-info { background: #0ea5e9; color: white; }
+        .btn-info:hover { background: #0284c7; }
+        .btn-warning { background: #f59e0b; color: white; }
+        .btn-warning:hover { background: #d97706; }
+        .empty-state { text-align: center; padding: 3rem; color: #6b7280; }
+        .empty-state i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
+        .demo-notice { background: linear-gradient(135deg, #fef3c7, #fde68a); border: 2px solid #f59e0b; border-radius: 12px; padding: 1rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 0.75rem; }
+        .demo-notice i { color: #d97706; font-size: 1.2rem; }
+        .demo-notice p { color: #92400e; font-weight: 500; }
+        .badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 6px; background: #eef2ff; }
         @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            .search-form {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .search-input {
-                min-width: auto;
-            }
-            
-            .table-responsive {
-                overflow-x: auto;
-            }
-            
-            .actions {
-                flex-direction: column;
-            }
+            .container { padding: 1rem; }
+            .search-form { flex-direction: column; align-items: stretch; }
+            .search-input { min-width: auto; }
+            .table-responsive { overflow-x: auto; }
+            .actions { flex-direction: column; }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <div class="header">
         <div class="logo">
-            <div class="logo-icon">
-                <i class="fas fa-user-md"></i>
-            </div>
+            <div class="logo-icon"><i class="fas fa-user-md"></i></div>
             <div class="logo-text">
                 <h1>Trainer</h1>
                 <p>Beyond Trust</p>
@@ -568,14 +215,9 @@ if (!empty($status_filter)) {
     </div>
 
     <div class="container">
-
-
-        <!-- Page Header -->
         <div class="page-header">
             <div class="page-title">
-                <div class="page-icon">
-                    <i class="fas fa-users"></i>
-                </div>
+                <div class="page-icon"><i class="fas fa-users"></i></div>
                 <div>
                     <h1>User Records</h1>
                     <p>Manage and access user history</p>
@@ -583,85 +225,57 @@ if (!empty($status_filter)) {
             </div>
         </div>
 
-        <!-- Statistics -->
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-icon total">
-                    <i class="fas fa-users"></i>
-                </div>
+                <div class="stat-icon total"><i class="fas fa-users"></i></div>
                 <div class="stat-info">
-                    <h3><?php echo number_format($stats['total_user']); ?></h3>
+                    <h3><?php echo number_format((int)($stats['total_user'] ?? 0)); ?></h3>
                     <p>Total Users</p>
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon active">
-                    <i class="fas fa-check-circle"></i>
-                </div>
+                <div class="stat-icon active"><i class="fas fa-check-circle"></i></div>
                 <div class="stat-info">
-                    <h3><?php echo number_format($stats['active_user']); ?></h3>
+                    <h3><?php echo number_format((int)($stats['active_user'] ?? 0)); ?></h3>
                     <p>Active Users</p>
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon inactive">
-                    <i class="fas fa-pause-circle"></i>
-                </div>
+                <div class="stat-icon inactive"><i class="fas fa-pause-circle"></i></div>
                 <div class="stat-info">
-                    <h3><?php echo number_format($stats['inactive_user']); ?></h3>
+                    <h3><?php echo number_format((int)($stats['inactive_user'] ?? 0)); ?></h3>
                     <p>Inactive Users</p>
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon new">
-                    <i class="fas fa-user-plus"></i>
-                </div>
+                <div class="stat-icon new"><i class="fas fa-user-plus"></i></div>
                 <div class="stat-info">
-                    <h3><?php echo number_format($stats['new_today']); ?></h3>
+                    <h3><?php echo number_format((int)($stats['new_today'] ?? 0)); ?></h3>
                     <p>New Today</p>
                 </div>
             </div>
         </div>
 
-        <!-- Search Section -->
         <div class="search-section">
             <form method="GET" class="search-form">
-                <input type="text" 
-                       name="search" 
-                       class="search-input" 
-                       placeholder="Search patients by name, phone, or email..."
-                       value="<?php echo htmlspecialchars($search); ?>">
-                
+                <input type="text" name="search" class="search-input" placeholder="Search patients by name, phone, or email..." value="<?php echo htmlspecialchars($search, ENT_QUOTES); ?>" />
                 <select name="status" class="filter-select">
                     <option value="">All Status</option>
-                    <option value="active" <?php echo $status_filter === 'active' ? 'selected' : ''; ?>>Active</option>
-                    <option value="inactive" <?php echo $status_filter === 'inactive' ? 'selected' : ''; ?>>Inactive</option>
+                    <option value="active"   <?php echo ($status_filter === 'active') ? 'selected' : ''; ?>>Active</option>
+                    <option value="inactive" <?php echo ($status_filter === 'inactive') ? 'selected' : ''; ?>>Inactive</option>
                 </select>
-                
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-search"></i>
-                    Search
-                </button>
-                
-                <a href="?" class="btn btn-secondary">
-                    <i class="fas fa-times"></i>
-                    Clear
-                </a>
-                
-                <a href="#" class="btn btn-success" onclick="alert('This is a demo page. Add user functionality not implemented.')">
-                    <i class="fas fa-plus"></i>
-                    Add User
-                </a>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+                <a href="?" class="btn btn-secondary"><i class="fas fa-times"></i> Clear</a>
+                <a href="#" class="btn btn-success" onclick="alert('This is a demo page. Add user functionality not implemented.')"><i class="fas fa-plus"></i> Add User</a>
             </form>
         </div>
 
-        <!-- User Table -->
         <div class="patients-table">
             <div class="table-header">
                 <h2 class="table-title">User List</h2>
-                <span><?php echo count($filtered_user); ?> Users found</span>
+                <span><?php echo count((array)$filtered_user); ?> Users found</span>
             </div>
-            
+
             <?php if (empty($filtered_user)): ?>
                 <div class="empty-state">
                     <i class="fas fa-users"></i>
@@ -689,64 +303,63 @@ if (!empty($status_filter)) {
                                 <td>
                                     <div class="patient-info">
                                         <div class="patient-avatar">
-                                            <?php 
-                                            $initials = strtoupper(substr($user['first_name'], 0, 1) . substr($user['last_name'], 0, 1));
-                                            echo $initials;
+                                            <?php
+                                                $firstInitial = strtoupper(substr($user['first_name'] ?? '', 0, 1));
+                                                $lastInitial  = strtoupper(substr($user['last_name'] ?? '', 0, 1));
+                                                echo htmlspecialchars($firstInitial . $lastInitial);
                                             ?>
                                         </div>
                                         <div class="patient-details">
-                                            <h4><?php echo htmlspecialchars($usert['first_name'] . ' ' . $user['last_name']); ?></h4>
-                                            <p>ID: #<?php echo str_pad($user['id'], 4, '0', STR_PAD_LEFT); ?></p>
+                                            <h4><?php echo htmlspecialchars(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? '')); ?></h4>
+                                            <p>ID: #<?php echo str_pad((string)($user['id'] ?? 0), 4, '0', STR_PAD_LEFT); ?></p>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
                                     <div>
-                                        <p><i class="fas fa-phone"></i> <?php echo htmlspecialchars($user['phone']); ?></p>
-                                        <p><i class="fas fa-envelope"></i> <?php echo htmlspecialchars($user['email']); ?></p>
+                                        <p><i class="fas fa-phone"></i> <?php echo htmlspecialchars($user['phone'] ?? 'N/A'); ?></p>
+                                        <p><i class="fas fa-envelope"></i> <?php echo htmlspecialchars($user['email'] ?? 'N/A'); ?></p>
                                     </div>
                                 </td>
                                 <td>
-                                    <?php 
-                                    if ($user['date_of_birth']) {
-                                        $birthDate = new DateTime($user['date_of_birth']);
-                                        $today = new DateTime();
-                                        $age = $today->diff($birthDate)->y;
-                                        echo $age . ' years';
-                                    } else {
-                                        echo 'N/A';
-                                    }
+                                    <?php
+                                        if (!empty($user['date_of_birth'])) {
+                                            try {
+                                                $birthDate = new DateTime($user['date_of_birth']);
+                                                $today = new DateTime('today');
+                                                $age = $today->diff($birthDate)->y;
+                                                echo (int)$age . ' years';
+                                            } catch (Exception $e) {
+                                                echo 'N/A';
+                                            }
+                                        } else {
+                                            echo 'N/A';
+                                        }
                                     ?>
                                 </td>
-                                <td><?php echo htmlspecialchars(user['blood_group'] ?? 'N/A'); ?></td>
+                                <td><?php echo htmlspecialchars($user['blood_group'] ?? 'N/A'); ?></td>
+                                <td><span class="badge"><?php echo (int)($user['total_appointments'] ?? 0); ?> visits</span></td>
                                 <td>
-                                    <span class="badge"><?php echo $user['total_appointments']; ?> visits</span>
-                                </td>
-                                <td>
-                                    <?php 
-                                    if ($user['last_visit']) {
-                                        echo date('M d, Y', strtotime($user['last_visit']));
-                                    } else {
-                                        echo 'No visits';
-                                    }
+                                    <?php
+                                        if (!empty($user['last_visit'])) {
+                                            $ts = strtotime($user['last_visit']);
+                                            echo $ts ? date('M d, Y', $ts) : 'No visits';
+                                        } else {
+                                            echo 'No visits';
+                                        }
                                     ?>
                                 </td>
                                 <td>
-                                    <span class="status-badge status-<?php echo $user['status']; ?>">
-                                        <?php echo ucfirst($user['status']); ?>
+                                    <?php $status = $user['status'] ?? 'unknown'; ?>
+                                    <span class="status-badge status-<?php echo htmlspecialchars($status); ?>">
+                                        <?php echo htmlspecialchars(ucfirst($status)); ?>
                                     </span>
                                 </td>
                                 <td>
                                     <div class="actions">
-                                        <a href="#" class="btn btn-info btn-sm" onclick="alert('View patient details - Demo functionality')">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-warning btn-sm" onclick="alert('Edit patient - Demo functionality')">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-primary btn-sm" onclick="alert('Patient appointments - Demo functionality')">
-                                            <i class="fas fa-calendar"></i>
-                                        </a>
+                                        <a href="#" class="btn btn-info btn-sm" onclick="alert('View patient details - Demo functionality')"><i class="fas fa-eye"></i></a>
+                                        <a href="#" class="btn btn-warning btn-sm" onclick="alert('Edit patient - Demo functionality')"><i class="fas fa-edit"></i></a>
+                                        <a href="#" class="btn btn-primary btn-sm" onclick="alert('Patient appointments - Demo functionality')"><i class="fas fa-calendar"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -759,21 +372,14 @@ if (!empty($status_filter)) {
     </div>
 
     <script>
-        // Auto-submit search form on filter change
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const statusSelect = document.querySelector('select[name="status"]');
-            if (statusSelect) {
-                statusSelect.addEventListener('change', function() {
+            if (statusSelect && statusSelect.form) {
+                statusSelect.addEventListener('change', function () {
                     this.form.submit();
                 });
             }
         });
-
-        // Show demo alerts for non-functional buttons
-        function showDemoAlert(action) {
-            alert(`This is a demo page. ${action} functionality is not implemented.`);
-            return false;
-        }
     </script>
 </body>
 </html>

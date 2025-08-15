@@ -105,7 +105,10 @@ $recent_users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
     </style>
 </head>
-<body class="medical-bg min-h-screen">
+<body class="min-h-screen py-8 relative" 
+      style="background: linear-gradient(135deg, #ec6d2dff 0%, #cc12f1ff 50%, #09f1d3ff 100%); 
+             background-size: cover;
+             background-position: center;">
     <!-- Navigation -->
     <nav class="bg-white/90 backdrop-blur-sm shadow-lg border-b border-purple-100">
         <div class="max-w-7xl mx-auto px-4">
@@ -116,7 +119,7 @@ $recent_users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <div>
                         <h1 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Admin</h1>
-                        <p class="text-sm text-gray-500">Heyond Trust</p>
+                        <p class="text-sm text-gray-500">Beyond Trust</p>
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">

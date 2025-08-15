@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_status'])) {
 
         .status-pending { border-left-color: #f59e0b; background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05)); }
         .status-confirmed { border-left-color: #10b981; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)); }
-        .status-completed { border-left-color: #3b82f6; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05)); }
+        .status-completed { border-left-color: #eea2e1ff; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05)); }
         .status-cancelled { border-left-color: #ef4444; background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05)); }
 
         .filter-btn {
@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_status'])) {
         }
 
         .filter-btn.active {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            background: linear-gradient(135deg, #e6e79aff, #8b5cf6);
             color: white;
         }
 
@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_status'])) {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            background: linear-gradient(135deg, #10b981, #3b82f6);
+            background: linear-gradient(135deg, #10b981, #f6c43bff);
             width: 4rem;
             height: 4rem;
             border-radius: 50%;
@@ -225,7 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_status'])) {
                                     </div>
                                 </div>
 
-                                <?php if ($appointment['Notes']): ?>
+                                <?php if ($appointment['notes']): ?>
                                     <div class="bg-gray-50 rounded-lg p-3 mb-4">
                                         <h4 class="font-semibold text-gray-800 mb-1">Notes:</h4>
                                         <p class="text-gray-700 text-sm"><?php echo htmlspecialchars($appointment['notes']); ?></p>

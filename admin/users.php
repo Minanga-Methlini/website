@@ -117,7 +117,10 @@ $departments = getAllDepartments($db);
         }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-slate-100 via-purple-50 to-blue-100">
+<body class="min-h-screen py-8 relative" 
+      style="background: linear-gradient(135deg, #ec6d2dff 0%, #cc12f1ff 50%, #09f1d3ff 100%); 
+             background-size: cover;
+             background-position: center;">
     <!-- Header with Gradient -->
     <header class="gradient-bg shadow-2xl">
         <div class="max-w-7xl mx-auto px-6">
@@ -379,15 +382,15 @@ $departments = getAllDepartments($db);
                                         <?php 
                                         switch($user['role']) {
                                             case 'admin': echo 'bg-gradient-to-r from-purple-400 to-purple-600 text-white'; break;
-                                            case 'doctor': echo 'bg-gradient-to-r from-green-400 to-green-600 text-white'; break;
-                                            case 'patient': echo 'bg-gradient-to-r from-blue-400 to-blue-600 text-white'; break;
+                                            case 'trainer': echo 'bg-gradient-to-r from-green-400 to-green-600 text-white'; break;
+                                            case 'user': echo 'bg-gradient-to-r from-blue-400 to-blue-600 text-white'; break;
                                         }
                                         ?>">
                                         <?php 
                                         switch($user['role']) {
                                             case 'admin': echo '👑 ' . ucfirst($user['role']); break;
-                                            case 'doctor': echo '🩺 ' . ucfirst($user['role']); break;
-                                            case 'patient': echo '👤 ' . ucfirst($user['role']); break;
+                                            case 'trainer': echo '🩺 ' . ucfirst($user['role']); break;
+                                            case 'user': echo '👤 ' . ucfirst($user['role']); break;
                                         }
                                         ?>
                                     </span>

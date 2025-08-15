@@ -129,7 +129,10 @@ $trainers = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
     </style>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen py-8 relative p-6" 
+      style="background: linear-gradient(135deg, #ec6d2dff 0%, #cc12f1ff 50%, #09f1d3ff 100%); 
+             background-size: cover;
+             background-position: center;">
 
     <!-- Navigation -->
     <nav class="bg-white shadow-sm">
@@ -343,7 +346,7 @@ $trainers = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <!-- Quick Actions -->
-        <div class="mt-8 bg-white rounded-xl shadow-sm overflow-hidden">
+        <div class="mt-8 bg-white rounded-xl shadow-sm overflow-hidden position-relative">
             <div class="bg-gradient-to-r from-indigo-50 to-purple-50 p-6 border-b border-gray-100">
                 <h3 class="text-xl font-bold text-gray-900 font-['Montserrat'] flex items-center gap-3">
                     <div class="bg-indigo-600 p-2 rounded-lg">
@@ -367,13 +370,6 @@ $trainers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                         <h4 class="font-bold text-gray-900 mb-1">Appointments</h4>
                         <p class="text-gray-500 text-sm">View your schedule</p>
-                    </a>
-                    <a href="trainer.php" class="quick-action-card bg-white border border-gray-100 rounded-lg p-6 text-center hover:shadow-md">
-                        <div class="bg-indigo-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-user-md text-indigo-600 text-xl"></i>
-                        </div>
-                        <h4 class="font-bold text-gray-900 mb-1">Find Trainers</h4>
-                        <p class="text-gray-500 text-sm">Browse professionals</p>
                     </a>
                     <a href="profile.php" class="quick-action-card bg-white border border-gray-100 rounded-lg p-6 text-center hover:shadow-md">
                         <div class="bg-indigo-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">

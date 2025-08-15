@@ -144,7 +144,12 @@ function formatDate(date) {
 }
 </script>
 
-<div class="min-h-screen bg-gray-50 p-6">
+
+    <body class="min-h-screen py-8 relative p-6" 
+      style="background: linear-gradient(135deg, #ec6d2dff 0%, #cc12f1ff 50%, #09f1d3ff 100%); 
+             background-size: cover;
+             background-position: center;">
+
     <div class="max-w-7xl mx-auto">
         <!-- Header -->
         <div class="bg-white rounded-lg shadow-sm p-6 mb-6">

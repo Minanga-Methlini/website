@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .medical-register-bg {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.9) 0%, rgba(59, 130, 246, 0.9) 50%, rgba(139, 92, 246, 0.9) 100%),
+            background: linear-gradient(135deg, rgba(241, 189, 19, 0.9) 0%, rgba(13, 224, 154, 0.9) 50%, rgba(139, 92, 246, 0.9) 100%),
                         url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><pattern id="medical-pattern" patternUnits="userSpaceOnUse" width="80" height="80"><circle cx="40" cy="40" r="2" fill="white" opacity="0.1"/><path d="M35 40h10M40 35v10" stroke="white" stroke-width="1" opacity="0.1"/></pattern></defs><rect width="400" height="400" fill="url(%23medical-pattern)"/></svg>');
             background-size: cover, 120px 120px;
             background-position: center, 0 0;
@@ -86,16 +86,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             background: rgba(255, 255, 255, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-
-        .floating-elements { position: absolute; width: 100%; height: 100%; overflow: hidden; }
-        .floating-element { position: absolute; color: rgba(255, 255, 255, 0.1); animation: float 8s ease-in-out infinite; }
-        .floating-element:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
-        .floating-element:nth-child(2) { top: 70%; left: 85%; animation-delay: 1.5s; }
-        .floating-element:nth-child(3) { top: 90%; left: 10%; animation-delay: 3s; }
-        .floating-element:nth-child(4) { top: 20%; left: 80%; animation-delay: 4.5s; }
-        .floating-element:nth-child(5) { top: 60%; left: 20%; animation-delay: 6s; }
-        .floating-element:nth-child(6) { top: 30%; left: 90%; animation-delay: 7.5s; }
-
         @keyframes float { 0%, 100% { transform: translateY(0px) rotate(0deg); } 33% { transform: translateY(-30px) rotate(8deg); } 66% { transform: translateY(15px) rotate(-5deg); } }
 
         .input-focus { transition: all 0.3s ease; }
@@ -122,17 +112,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .form-section { background: rgba(255,255,255,0.5); border-radius:1rem; padding:1.5rem; margin-bottom:1.5rem; border:1px solid rgba(255,255,255,0.3); }
     </style>
 </head>
-<body class="medical-register-bg min-h-screen py-8 relative">
-
-    <!-- Floating Elements -->
-    <div class="floating-elements">
-        <div class="floating-element"><i class="fas fa-user-plus text-6xl"></i></div>
-        <div class="floating-element"><i class="fas fa-clipboard-list text-5xl"></i></div>
-        <div class="floating-element"><i class="fas fa-user-md text-4xl"></i></div>
-        <div class="floating-element"><i class="fas fa-hospital-user text-5xl"></i></div>
-        <div class="floating-element"><i class="fas fa-id-card text-4xl"></i></div>
-        <div class="floating-element"><i class="fas fa-file-medical text-3xl"></i></div>
-    </div>
+<body class="min-h-screen py-8 relative" 
+      style="background: linear-gradient(135deg, #ec6d2dff 0%, #cc12f1ff 50%, #09f1d3ff 100%); 
+             background-size: cover;
+             background-position: center;">
 
     <div class="max-w-2xl mx-auto px-4">
         <div class="register-card p-8 rounded-3xl shadow-2xl relative z-10">

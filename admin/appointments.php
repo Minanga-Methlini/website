@@ -127,7 +127,10 @@ $appointments = $appointmentManager->getAllAppointments();
         }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-slate-100 via-indigo-50 to-purple-100">
+<body class="min-h-screen py-8 relative" 
+      style="background: linear-gradient(135deg, #ec6d2dff 0%, #cc12f1ff 50%, #09f1d3ff 100%); 
+             background-size: cover;
+             background-position: center;">
     <!-- Header with Gradient -->
     <header class="gradient-bg shadow-2xl">
         <div class="max-w-7xl mx-auto px-6">

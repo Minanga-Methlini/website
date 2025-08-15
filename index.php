@@ -97,7 +97,11 @@
         }
     </style>
 </head>
-<body class="font-sans bg-gray-50">
+<body class="min-h-screen py-8 relative" 
+      style="background: linear-gradient(135deg, #f3bbc7ff 0%, #f5dd9cff 50%, #c7eea8ff 100%), url('images/background.jpg'); 
+             background-size: cover;
+             background-position: center;">
+
 
     <!-- Enhanced Navigation -->
     <nav class="glass-effect shadow-lg sticky top-0 z-50">
@@ -112,12 +116,6 @@
                         <h1 class="text-2xl font-bold gradient-text font-serif">Beyond Trust</h1>
                         <p class="text-xs text-gray-600 font-medium">Compassionate Healthcare</p>
                     </div>
-                </div>
-                <div class="hidden md:flex space-x-8">
-                    <a href="index.php" class="text-primary font-semibold hover:text-accent transition-colors">Home</a>
-                    <a href="services.php" class="text-gray-700 hover:text-accent transition-colors">Services</a>
-                    <a href="booking.html" class="text-gray-700 hover:text-accent transition-colors">Book Now</a>
-                    <a href="website/contacts.html" class="text-gray-700 hover:text-accent transition-colors">Contact Us</a>
                 </div>
                 <div class="flex items-center space-x-4">
                     <a href="login.php" class="bg-primary text-white px-5 py-2 rounded-lg hover:bg-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg font-medium flex items-center space-x-2">
@@ -139,7 +137,7 @@
             <!-- Left Content -->
             <div class="relative animate-fade-in">
                 <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    <img src="images/homepg.jpg"
                          alt="Modern Healthcare Technology" 
                          class="rounded-2xl shadow-2xl animate-float-vertical">
                     <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl">
@@ -204,15 +202,15 @@
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
-                <!-- Doctor Card -->
+                <!-- Trainer Card -->
                 <div class="bg-white p-6 rounded-xl shadow-lg card-hover animate-scale-in relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-primary/5 rounded-full -translate-y-16 translate-x-16"></div>
                     <div class="relative">
                         <div class="bg-gradient-to-br from-primary to-indigo-600 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-6 shadow-md">
                             <i class="fas fa-user-md text-white text-2xl"></i>
                         </div>
-                        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                             alt="Doctor Dashboard" 
+                        <img src="images/fitness.jpg" 
+                             alt="Trainer Dashboard" 
                              class="w-full h-48 object-cover rounded-lg mb-6 shadow-md">
                         <h4 class="text-xl font-bold text-gray-800 mb-4 font-serif">For Trainers</h4>
                         <p class="text-gray-600 mb-4">Simplify healthcare with easy scheduling, smooth client management, and instant access to health records — giving you more time to care for the people who matter most.</p>
@@ -240,7 +238,7 @@
                         <div class="bg-gradient-to-br from-accent to-orange-600 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-6 shadow-md">
                             <i class="fas fa-user text-white text-2xl"></i>
                         </div>
-                        <img src="https://images.unsplash.com/photo-1629909613657-1fe8e0a56b1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                        <img src="images/services.jpg" 
                              alt="Patient Experience" 
                              class="w-full h-48 object-cover rounded-lg mb-6 shadow-md">
                         <h4 class="text-xl font-bold text-gray-800 mb-4 font-serif">For Patients</h4>
@@ -269,7 +267,7 @@
                         <div class="bg-gradient-to-br from-secondary to-green-600 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-6 shadow-md">
                             <i class="fas fa-cog text-white text-2xl"></i>
                         </div>
-                        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                        <img src="images/accountant-office.jpg" 
                              alt="Admin Dashboard" 
                              class="w-full h-48 object-cover rounded-lg mb-6 shadow-md">
                         <h4 class="text-xl font-bold text-gray-800 mb-4 font-serif">For Admins</h4>
