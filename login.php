@@ -59,225 +59,201 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Medicare System</title>
+    <title>Login - Beyond Trust Health Care</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .medical-login-bg {
-            background: linear-gradient(135deg, 
-                rgba(59, 130, 246, 0.9) 0%, 
-                rgba(147, 51, 234, 0.9) 50%, 
-                rgba(79, 172, 254, 0.9) 100%),
-                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><pattern id="medical-pattern" patternUnits="userSpaceOnUse" width="80" height="80"><circle cx="40" cy="40" r="2" fill="white" opacity="0.1"/><path d="M35 40h10M40 35v10" stroke="white" stroke-width="1" opacity="0.1"/></pattern></defs><rect width="400" height="400" fill="url(%23medical-pattern)"/></svg>');
-            background-size: cover, 120px 120px;
-            background-position: center, 0 0;
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #dbeafe 100%);
         }
-
-        .login-card {
-            backdrop-filter: blur(20px);
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .floating-elements {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+        
+        .login-container {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 0 25px 50px rgba(30, 58, 138, 0.1);
+            border-radius: 20px;
             overflow: hidden;
         }
-
-        .floating-element {
-            position: absolute;
-            color: rgba(255, 255, 255, 0.1);
-            animation: float 6s ease-in-out infinite;
+        
+        .header-gradient {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
         }
-
-        .floating-element:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
-        .floating-element:nth-child(2) { top: 60%; left: 80%; animation-delay: 1s; }
-        .floating-element:nth-child(3) { top: 80%; left: 20%; animation-delay: 2s; }
-        .floating-element:nth-child(4) { top: 30%; left: 70%; animation-delay: 3s; }
-        .floating-element:nth-child(5) { top: 70%; left: 60%; animation-delay: 4s; }
-        .floating-element:nth-child(6) { top: 40%; left: 90%; animation-delay: 5s; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            33% { transform: translateY(-20px) rotate(5deg); }
-            66% { transform: translateY(10px) rotate(-3deg); }
+        
+        .input-field {
+            transition: all 0.3s ease;
+            border: 2px solid #e2e8f0;
         }
-
-        .input-focus {
+        
+        .input-field:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        
+        .login-btn {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             transition: all 0.3s ease;
         }
-
-        .input-focus:focus {
+        
+        .login-btn:hover {
+            background: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
         }
-
+        
+        .floating-icon {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
         .heartbeat {
             animation: heartbeat 2s ease-in-out infinite;
         }
-
+        
         @keyframes heartbeat {
             0%, 50%, 100% { transform: scale(1); }
             25%, 75% { transform: scale(1.1); }
         }
-
-        .login-btn {
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            transition: all 0.3s ease;
-        }
-
-        .login-btn:hover {
-            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
-        }
-
+        
         .role-badge {
             display: inline-block;
-            padding: 4px 8px;
+            padding: 4px 12px;
             margin: 2px;
             border-radius: 12px;
-            font-size: 10px;
+            font-size: 12px;
             font-weight: 600;
         }
-
+        
         .admin-badge { background: linear-gradient(45deg, #8b5cf6, #a855f7); color: white; }
-        .doctor-badge { background: linear-gradient(45deg, #3b82f6, #60a5fa); color: white; }
-        .patient-badge { background: linear-gradient(45deg, #10b981, #34d399); color: white; }
+        .trainer-badge { background: linear-gradient(45deg, #3b82f6, #60a5fa); color: white; }
+        .user-badge { background: linear-gradient(45deg, #10b981, #34d399); color: white; }
+        
+        .error-message {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+            border-left: 4px solid #ef4444;
+        }
     </style>
 </head>
-<body class="medical-login-bg min-h-screen flex items-center justify-center relative">
-    <!-- Floating Medical Elements -->
-    <div class="floating-elements">
-        <div class="floating-element">
-            <i class="fas fa-stethoscope text-6xl"></i>
-        </div>
-        <div class="floating-element">
-            <i class="fas fa-heartbeat text-5xl"></i>
-        </div>
-        <div class="floating-element">
-            <i class="fas fa-user-md text-4xl"></i>
-        </div>
-        <div class="floating-element">
-            <i class="fas fa-hospital text-5xl"></i>
-        </div>
-        <div class="floating-element">
-            <i class="fas fa-pills text-4xl"></i>
-        </div>
-        <div class="floating-element">
-            <i class="fas fa-syringe text-3xl"></i>
-        </div>
-    </div>
-
-    <div class="login-card p-8 rounded-3xl shadow-2xl w-full max-w-md mx-4 relative z-10">
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="login-container w-full max-w-md overflow-hidden">
         <!-- Header Section -->
-        <div class="text-center mb-8">
-            <div class="bg-gradient-to-r from-blue-500 to-purple-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                <i class="fas fa-heartbeat text-white text-3xl heartbeat"></i>
+        <div class="header-gradient text-white p-8 text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full opacity-10">
+                <div class="absolute top-10 left-20 text-6xl floating-icon" style="animation-delay: 0s;"><i class="fas fa-heartbeat"></i></div>
+                <div class="absolute bottom-20 right-20 text-5xl floating-icon" style="animation-delay: 1s;"><i class="fas fa-user-md"></i></div>
             </div>
-            <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
-                Beyond Trust
-            </h1>
-            <h2 class="text-2xl font-bold text-gray-800 mb-2">Welcome Back</h2>
-            <p class="text-gray-600">Sign in to access your healthcare dashboard</p>
-            
-            <!-- Role Indicators -->
-            <div class="mt-4 flex justify-center flex-wrap">
-                <span class="role-badge admin-badge">
-                    <i class="fas fa-user-shield mr-1"></i>Admin
-                </span>
-                <span class="role-badge doctor-badge">
-                    <i class="fas fa-user-md mr-1"></i>Trainer
-                </span>
-                <span class="role-badge patient-badge">
-                    <i class="fas fa-user mr-1"></i>User
-                </span>
+            <div class="relative z-10">
+                <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg heartbeat">
+                    <i class="fas fa-sign-in-alt text-3xl text-indigo-600"></i>
+                </div>
+                <h1 class="text-3xl font-bold font-['Montserrat'] mb-2">Welcome Back</h1>
+                <p class="text-indigo-100">Sign in to your healthcare account</p>
+                
+                <!-- Role Indicators -->
+                <div class="mt-4 flex justify-center flex-wrap">
+                    <span class="role-badge admin-badge">
+                        <i class="fas fa-user-shield mr-1"></i>Admin
+                    </span>
+                    <span class="role-badge trainer-badge">
+                        <i class="fas fa-user-md mr-1"></i>Trainer
+                    </span>
+                    <span class="role-badge user-badge">
+                        <i class="fas fa-user mr-1"></i>User
+                    </span>
+                </div>
             </div>
         </div>
-
-        <!-- Error Message -->
-        <?php if ($error): ?>
-            <div class="bg-gradient-to-r from-red-100 to-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-xl mb-6 shadow-sm">
-                <div class="flex items-center">
-                    <i class="fas fa-exclamation-triangle mr-2"></i>
+        
+        <!-- Form Section -->
+        <div class="p-8">
+            <!-- Error Message -->
+            <?php if ($error): ?>
+                <div class="error-message text-red-700 px-4 py-3 rounded-lg mb-6 flex items-start">
+                    <i class="fas fa-exclamation-circle mt-1 mr-2"></i>
                     <span><?php echo $error; ?></span>
                 </div>
-            </div>
-        <?php endif; ?>
-
-        <!-- Login Form -->
-        <form method="POST" class="space-y-6">
-            <div>
-                <label class="block text-gray-700 text-sm font-bold mb-3 flex items-center">
-                    <i class="fas fa-envelope mr-2 text-blue-500"></i>
-                    Email Address
-                </label>
-                <div class="relative">
-                    <input type="email" name="email" required 
-                           class="input-focus w-full px-4 py-3 pl-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 bg-white/80"
-                           placeholder="Enter your email address">
-                    <i class="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+            <?php endif; ?>
+            
+            <form method="POST" class="space-y-6">
+                <!-- Email Field -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                        <i class="fas fa-envelope mr-2 text-indigo-600"></i>
+                        Email Address
+                    </label>
+                    <div class="relative">
+                        <input type="email" id="email" name="email" required 
+                               class="input-field w-full px-4 py-3 pl-12 rounded-lg"
+                               placeholder="your@email.com">
+                        <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
                 </div>
-            </div>
-
-            <div>
-                <label class="block text-gray-700 text-sm font-bold mb-3 flex items-center">
-                    <i class="fas fa-lock mr-2 text-purple-500"></i>
-                    Password
-                </label>
-                <div class="relative">
-                    <input type="password" name="password" required 
-                           class="input-focus w-full px-4 py-3 pl-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-purple-500 bg-white/80"
-                           placeholder="Enter your password">
-                    <i class="fas fa-key absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                
+                <!-- Password Field -->
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                        <i class="fas fa-lock mr-2 text-indigo-600"></i>
+                        Password
+                    </label>
+                    <div class="relative">
+                        <input type="password" id="password" name="password" required 
+                               class="input-field w-full px-4 py-3 pl-12 rounded-lg"
+                               placeholder="••••••••">
+                        <i class="fas fa-key absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
                 </div>
-            </div>
-
-            <button type="submit" 
-                    class="login-btn w-full text-white py-4 px-6 rounded-xl font-bold text-lg shadow-lg">
-                <i class="fas fa-sign-in-alt mr-2"></i>
-                Sign In to Dashboard
-            </button>
-        </form>
-
-        <!-- Footer Links -->
-        <div class="text-center mt-8 space-y-3">
-            <p class="text-gray-600">
-                Don't have an account? 
-                <a href="register.php" class="text-blue-600 hover:text-purple-600 font-semibold hover:underline transition-colors">
-                    <i class="fas fa-user-plus mr-1"></i>Sign up
-                </a>
-            </p>
-            <a href="index.php" class="inline-flex items-center text-blue-600 hover:text-purple-600 font-semibold hover:underline transition-colors">
-                <i class="fas fa-arrow-left mr-2"></i>Back to Home
-            </a>
-        </div>
-
-        <!-- Security Badge -->
-        <div class="mt-6 text-center">
-            <div class="inline-flex items-center bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">
-                <i class="fas fa-shield-alt mr-1"></i>
-                Secure Healthcare Login
+                
+                <!-- Remember Me & Forgot Password -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input id="remember" name="remember" type="checkbox" 
+                               class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                        <label for="remember" class="ml-2 block text-sm text-gray-700">
+                            Remember me
+                        </label>
+                    </div>
+                    <div class="text-sm">
+                        <a href="forgot-password.php" class="font-medium text-indigo-600 hover:text-indigo-500">
+                            Forgot password?
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Submit Button -->
+                <button type="submit" class="login-btn w-full text-white py-3 px-6 rounded-lg font-bold text-lg shadow-md">
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    Sign In
+                </button>
+                
+                <!-- Registration Link -->
+                <div class="text-center text-gray-600">
+                    Don't have an account? 
+                    <a href="register.php" class="font-medium text-indigo-600 hover:text-indigo-500">
+                        Sign up
+                    </a>
+                </div>
+            </form>
+            
+            <!-- Security Badge -->
+            <div class="mt-8 text-center">
+                <div class="inline-flex items-center bg-gray-100 text-gray-800 px-4 py-2 rounded-full text-sm font-medium">
+                    <i class="fas fa-shield-alt text-indigo-600 mr-2"></i>
+                    Secure Healthcare Login
+                </div>
             </div>
         </div>
     </div>
-
+    
     <!-- Decorative Elements -->
-    <div class="absolute bottom-10 left-10 text-white/10">
-        <i class="fas fa-dna text-6xl"></i>
+    <div class="fixed bottom-10 left-10 text-blue-100 text-6xl z-0">
+        <i class="fas fa-heartbeat"></i>
     </div>
-    <div class="absolute top-10 right-10 text-white/10">
-        <i class="fas fa-microscope text-5xl"></i>
-    </div>
-    <div class="absolute top-1/2 left-10 text-white/10">
-        <i class="fas fa-ambulance text-4xl"></i>
-    </div>
-    <div class="absolute bottom-1/4 right-10 text-white/10">
-        <i class="fas fa-clinic-medical text-5xl"></i>
+    <div class="fixed top-10 right-10 text-blue-100 text-5xl z-0">
+        <i class="fas fa-stethoscope"></i>
     </div>
 </body>
 </html>
-
-

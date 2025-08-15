@@ -70,43 +70,72 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Appointment -Beyond Trust</title>
+    <title>Book Appointment - Beyond Trust</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
         }
-        .card-shadow {
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        
+        .appointment-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
+        
+        .appointment-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
         .form-input {
             transition: all 0.3s ease;
         }
+        
         .form-input:focus {
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
         }
+        
         .btn-primary {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             transition: all 0.3s ease;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
         }
+        
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-secondary {
+            transition: all 0.3s ease;
+            background-color: #f1f5f9;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-gray-50">
+
+<div class="min-h-screen">
     <!-- Navigation -->
-    <nav class="gradient-bg shadow-lg">
+    <nav class="gradient-bg shadow-sm">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between items-center py-4">
                 <div class="flex items-center space-x-3">
                     <div class="bg-white bg-opacity-20 p-2 rounded-lg">
                         <i class="fas fa-calendar-plus text-white text-xl"></i>
                     </div>
-                    <h1 class="text-2xl font-bold text-white">Book Appointment</h1>
+                    <h1 class="text-2xl font-bold text-white font-['Montserrat']">Book Appointment</h1>
                 </div>
                 <div class="flex items-center space-x-4">
                     <a href="dashboard.php" class="text-white hover:text-gray-200 transition flex items-center">
@@ -122,12 +151,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <div class="max-w-4xl mx-auto px-4 py-8">
         <!-- Header Section -->
-        <div class="text-center mb-8">
-            <h2 class="text-3xl font-bold text-gray-800 mb-2">Schedule Your Appointment</h2>
-            <p class="text-gray-600">Choose your preferred trainer and time slot</p>
+        <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+            <div class="text-center">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2 font-['Montserrat']">Schedule Your Appointment</h2>
+                <p class="text-gray-600">Choose your preferred trainer and time slot</p>
+            </div>
         </div>
 
-        <div class="bg-white rounded-2xl card-shadow overflow-hidden">
+        <div class="appointment-card bg-white rounded-xl shadow-sm overflow-hidden">
             <!-- Alert Messages -->
             <?php if ($error): ?>
                 <div class="bg-red-50 border-l-4 border-red-500 p-4 m-6 rounded-lg">
@@ -151,16 +182,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             <?php endif; ?>
 
-            <div class="p-8">
+            <div class="p-6">
                 <form method="POST" class="space-y-6">
-                    <!-- trainer Selection -->
+                    <!-- Trainer Selection -->
                     <div class="bg-gray-50 p-6 rounded-xl">
                         <label class="flex items-center text-gray-700 text-sm font-semibold mb-3">
                             <i class="fas fa-user-md text-blue-500 mr-2"></i>
                             Select Trainer
                         </label>
                         <select name="trainer_id" required 
-                                class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 bg-white">
+                                class="form-input w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white">
                             <option value="">Choose your preferred trainer</option>
                             <?php foreach ($trainers as $trainer): ?>
                                 <option value="<?php echo $trainer['id']; ?>">
@@ -180,7 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </label>
                             <input type="date" name="appointment_date" required 
                                    min="<?php echo date('Y-m-d'); ?>"
-                                   class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 bg-white">
+                                   class="form-input w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white">
                         </div>
 
                         <div class="bg-gray-50 p-6 rounded-xl">
@@ -189,7 +220,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 Appointment Time
                             </label>
                             <select name="appointment_time" required 
-                                    class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 bg-white">
+                                    class="form-input w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white">
                                 <option value="">Select preferred time</option>
                                 <optgroup label="Morning">
                                     <option value="09:00:00">9:00 AM</option>
@@ -218,19 +249,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             Additional Notes <span class="text-gray-400 font-normal">(Optional)</span>
                         </label>
                         <textarea name="notes" rows="4" 
-                                  class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 bg-white resize-none"
+                                  class="form-input w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white resize-none"
                                   placeholder="Please describe your symptoms, reason for visit, or any specific concerns..."></textarea>
                     </div>
 
                     <!-- Action Buttons -->
                     <div class="flex flex-col sm:flex-row gap-4 pt-6">
                         <button type="submit" 
-                                class="btn-primary text-white px-8 py-4 rounded-xl font-semibold flex items-center justify-center flex-1">
+                                class="btn-primary text-white px-8 py-3 rounded-lg font-semibold flex items-center justify-center flex-1">
                             <i class="fas fa-calendar-check mr-2"></i>
                             Book Appointment
                         </button>
                         <a href="dashboard.php" 
-                           class="bg-gray-100 text-gray-700 px-8 py-4 rounded-xl font-semibold hover:bg-gray-200 transition flex items-center justify-center">
+                           class="btn-secondary text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-200 transition flex items-center justify-center">
                             <i class="fas fa-times mr-2"></i>
                             Cancel
                         </a>
@@ -240,20 +271,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
         <!-- Additional Information -->
-        <div class="mt-8 bg-blue-50 rounded-2xl p-6">
+        <div class="mt-8 bg-blue-50 rounded-xl p-6">
             <div class="flex items-start">
                 <i class="fas fa-info-circle text-blue-500 text-xl mt-1 mr-3"></i>
                 <div>
-                    <h3 class="font-semibold text-blue-800 mb-2">Important Information</h3>
+                    <h3 class="font-semibold text-blue-800 mb-2 font-['Montserrat']">Important Information</h3>
                     <ul class="text-blue-700 space-y-1 text-sm">
                         <li>• Please arrive 15 minutes before your scheduled appointment</li>
                         <li>• Bring your insurance card and a valid ID</li>
                         <li>• You will receive a confirmation email once your appointment is approved</li>
-                    
                     </ul>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

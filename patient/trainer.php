@@ -28,14 +28,14 @@ exit;
 
 // Modified query - assuming the column might be named differently
 // Common alternatives: years_experience, experience, years_of_experience
-$query = "SELECT u.id, u.first_name, u.last_name, u.email, u.phone, 
-                 dp.specialization, dp.qualification, dp.fee,
-                 d.name as department_name, d.id as department_id,
-                 COALESCE(dp.experience_years, dp.years_experience, dp.experience, 0) as experience_years
-          FROM users u 
-          JOIN trainer_profiles dp ON u.id = dp.user_id
-          JOIN departments d ON dp.department_id = d.id
-          WHERE u.role = 'trainer'";
+$sql = "SELECT u.id, u.first_name, u.last_name, u.email, u.phone, 
+               dp.specialization, dp.bio, dp.profile_picture, dp.availability,
+               d.name AS department_name, d.id AS department_id
+        FROM users u 
+        JOIN trainer_profiles dp ON u.id = dp.user_id
+        JOIN departments d ON dp.department_id = d.id
+        WHERE u.role = 'trainer'";
+
 
 $params = [];
 
@@ -301,7 +301,7 @@ $specializations = $spec_stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="flex justify-between items-center mb-6">
             <div>
                 <h2 class="text-2xl font-bold text-gray-800">Available Trainers</h2>
-                <p class="text-gray-600"><?php echo count($doctors); ?> Trainers found</p>
+                <p class="text-gray-600"><?php echo count($trainer); ?> Trainers found</p>
             </div>
         </div>
 
@@ -313,7 +313,7 @@ $specializations = $spec_stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <h3 class="text-2xl font-bold text-gray-800 mb-4">No trainer found</h3>
                 <p class="text-gray-600 mb-6">Try adjusting your search criteria or browse all trainer.</p>
-                <a href="doctors.php" class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-3 rounded-full hover:from-blue-600 hover:to-blue-700 transition-all transform hover:scale-105 shadow-lg">
+                <a href="trainer.php" class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-3 rounded-full hover:from-blue-600 hover:to-blue-700 transition-all transform hover:scale-105 shadow-lg">
                     <i class="fas fa-users mr-2"></i>View All trainers
                 </a>
             </div>
@@ -348,7 +348,7 @@ $specializations = $spec_stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <i class="fas fa-certificate mr-3 text-purple-500"></i>
                                 <span><?php echo htmlspecialchars($trainer['qualification']); ?></span>
                             </div>
-                            <?php if ($doctor['consultation_fee']): ?>
+                            <?php if ($trainer['fee']): ?>
                             <div class="flex items-center text-gray-600">
                                 <i class="fas fa-dollar-sign mr-3 text-yellow-500"></i>
                                 <span>$<?php echo number_format($trainer['fee'], 2); ?> Fee</span>
@@ -395,7 +395,7 @@ $specializations = $spec_stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-90vh overflow-y-auto">
             <div class="hero-pattern p-6 border-b border-gray-200">
                 <div class="flex justify-between items-center">
-                    <h3 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Doctor Details</h3>
+                    <h3 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Trainer Details</h3>
                     <button onclick="closeDoctorDetails()" class="text-gray-500 hover:text-gray-700 text-2xl">
                         <i class="fas fa-times"></i>
                     </button>
@@ -408,7 +408,7 @@ $specializations = $spec_stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <script>
-        function showDoctorDetails(doctorId) {
+        function showTrainerDetails(trainerId) {
             // This would typically make an AJAX request to get doctor details
             // For now, we'll show basic info
             const modal = document.getElementById('doctorModal');
@@ -445,7 +445,7 @@ $specializations = $spec_stmt->fetchAll(PDO::FETCH_ASSOC);
                         </ul>
                     </div>
                     <div class="mt-6 text-center">
-                        <button onclick="closeDoctorDetails()" class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-3 rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all">
+                        <button onclick="closetrainerDetails()" class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-3 rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all">
                             Close
                         </button>
                     </div>
@@ -453,7 +453,7 @@ $specializations = $spec_stmt->fetchAll(PDO::FETCH_ASSOC);
             }, 1500);
         }
 
-        function closeDoctorDetails() {
+        function closetrainerDetails() {
             const modal = document.getElementById('doctorModal');
             modal.classList.add('hidden');
             modal.classList.remove('flex');
@@ -462,7 +462,7 @@ $specializations = $spec_stmt->fetchAll(PDO::FETCH_ASSOC);
         // Close modal when clicking outside
         document.getElementById('doctorModal').addEventListener('click', function(e) {
             if (e.target === this) {
-                closeDoctorDetails();
+                closetrainerDetails();
             }
         });
     </script>
