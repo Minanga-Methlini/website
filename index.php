@@ -85,7 +85,7 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 min-h-screen medical-pattern">
+
     <!-- Enhanced Navigation -->
     <nav class="glass-effect shadow-xl sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4">
@@ -99,6 +99,13 @@
                         <h1 class="text-2xl font-bold gradient-text">Beyond Trust</h1>
                         <p class="text-xs text-gray-500 font-medium">Healthcare Services</p>
                     </div>
+                </div>
+                <div>
+<nav class="space-x-6 text-white">
+        <a href="index.php" class="text-teal-300 font-semibold">Home</a>
+        <a href="services.php" class="hover:text-teal-300 hover:scale-105 transition duration-300">Services</a>
+        <a href="booking.html" class="hover:text-teal-300 hover:scale-105 transition duration-300">Book Now</a>
+        <a href="website/contacts.html" class="hover:text-teal-300 hover:scale-105 transition duration-300">Contact Us</a>
                 </div>
                 <div class="flex items-center space-x-4">
                     <a href="login.php" class="bg-primary text-white px-6 py-2.5 rounded-xl hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium flex items-center space-x-2">
