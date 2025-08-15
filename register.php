@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error = 'Passwords do not match';
     } elseif (strlen($password) < 6) {
         $error = 'Password must be at least 6 characters long';
-    } elseif (!in_array($role, ['doctor', 'patient'])) {
+    } elseif (!in_array($role, ['trainer', 'user'])) {
         $error = 'Invalid role selected';
     } else {
         $database = new Database();
